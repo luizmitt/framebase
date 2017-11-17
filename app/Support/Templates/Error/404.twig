@@ -1,0 +1,26 @@
+{% set disable_menu       = true %}
+{% set disable_breadcrumb = true %}
+
+{% extends "_templates/pmm/index.twig" %}
+{% block content %}
+
+<div class="text-center">
+    <h1>Oopss... Esta página não está disponível</h1>
+    <h5>O link informado pode estar quebrado ou a página pode ter sido removida.</h5>
+</div>
+
+
+<div class="text-center" style="font-size:150px">404</div>
+
+{% if message %}
+    <p class="text-center"><small>{{message}}</small></p>
+{% endif %}
+
+<hr/>
+
+<div class="text-center" style="padding:30px">
+    <a href="#" onclick="javascript:history.go(-1); return false;">Retornar à página anterior</a> -
+    <a href="{{URL}}">Ir para à página inicial</a> -
+    <a href="{{URL}}feedback">Feedback</a>
+</div>
+{% endblock %}

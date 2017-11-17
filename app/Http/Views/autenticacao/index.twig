@@ -1,0 +1,130 @@
+{% set disable_menu = true %}
+{% set disable_breadcrumb = true %}
+
+{% extends "_templates/pmm/index.twig" %}
+{% block content %}
+
+<input type="hidden" id="session-free" value="true" />
+
+<div class="row">
+  <h1>{{lang.restrictedarea}}</h1>
+  <h5 style="font-size:0.85em;">{{lang.restrictedmessage}}</h5>
+  <hr/>
+</div>
+
+<div class="row">
+    <div class="hidden-xs hidden-sm col-md-4 col-lg-4"></div>
+
+    <div class="col-md-4 col-lg-4">
+      {{flash | raw}}
+
+      <form class="form-login" action="{{URL}}autenticacao/run" method="post" role="form">
+        <div class="form-group">
+          <label class="control-label" for="username">{{lang.username}}</label>
+          <input class="form-control" id="username" name="username" placeholder="Entre com seu usuário" type="text" required>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label" for="password">{{lang.password}}</label>
+          <input class="form-control" id="password" name="password" placeholder="Entre com sua senha" type="password" required>
+        </div>
+
+        {% if debug %}
+        <div class="form-group">
+          <label class="control-label">{{lang.environment}}</label>
+          <select class="form-control form-control-select2" id="environment" name="environment" required>
+            {% for key,value in environment %}
+              <option value="{{key}}">{{value}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        {% endif %}
+
+        <button id="entrar" type="submit" class="btn btn-default form-control">
+        <i class="fa fa-sign-in"></i>
+        <span>{{lang.login}}</span>
+        </button>
+      </form>
+    </div>
+</div>
+
+{% if session.login_expired %}
+
+<div id="as_modal" class="modal fade" tabindex="-1" role="dialog" style="margin-top:150px;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Alterar senha</h4>
+      </div>
+
+      <div class="modal-body form-alterar-senha">
+
+          <div class="row">
+              <div class="col-md-12">
+                  <label>USUÁRIO</label>
+                  <input id="as_username" type="text" disabled class="form-control" value="{{session.s_username | upper }}"/>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="col-md-12">
+                  <label class="obrigatorio">SENHA ATUAL</label>
+                  <input id="as_current_password" type="password" class="form-control" required/>
+              </div>
+          </div>
+
+          <hr/>
+
+          <div class="alert alert-info" style="font-size:x-small">
+              <p style='padding-bottom:10px'>
+                  <strong>Por medidas de segurança, preencha sua nova senha conforme as regras abaixo:</strong>
+              </p>
+              <ul style="padding-left:15px">
+                  <li>no mínimo <b>6</b> caracteres</li>
+                  <li>no mínimo <b>1</b> leta minúscula</li>
+                  <li>no mínimo <b>1</b> letra maiuscula</li>
+                  <li>no mínimo <b>1</b> número</li>
+                  <li>não possua sequencia numerica</li>
+                  <li>não possua caracteres especiais ex: <b>!@#$%_&*</b></li>
+              </ul>
+          </div>
+
+          <div class="row">
+              <div class="col-md-12" style="padding-bottom:5px;">
+                  <label class="obrigatorio">NOVA SENHA</label>
+                  <input id="as_new_password" type="password" class="form-control" required/>
+                  <span style="float:left;width:100%;height:6px;border-radius:1px;border:1px solid #ccc;overflow:hidden;">
+                      <span id="bar" style="float:left;height:100%;background-color:green"></span>
+                  </span>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-12">
+                  <label class="obrigatorio">CONFIRMAR NOVA SENHA</label>
+                  <input id="as_new_confirm_password" type="password" class="form-control" required/>
+              </div>
+          </div>
+
+          <div id="alert_error" class="row" style="margin-top:15px;display:none;">
+              <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span id="msg_error"></span>
+              </div>
+          </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button id="btn_alterar_senha" type="button" class="btn btn-primary" disabled><i></i>Alterar Senha</button>
+      </div>
+
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{% endif %}
+
+{% endblock %}

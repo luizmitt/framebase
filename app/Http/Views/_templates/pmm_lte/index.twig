@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>SISTEMAS PMM</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+  <link rel="stylesheet" href="{{URL}}assets/css/plugins.css">
+  <link rel="stylesheet" href="{{URL}}assets/css/all.css">
+  {{app_css | raw}}
+  {{load_css()}}
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body class="hold-transition skin-black sidebar-mini fixed">
+<div class="wrapper">
+
+  <header class="main-header">
+    <a href="#" class="logo" style="background-color:#fff">
+      <span class="logo-mini"><b>P</b>MM</span>
+      <span class="logo-lg">
+          <img src="images/sistemaspmm.svg" height="50"/>
+      </span>
+    </a>
+
+    <nav class="navbar navbar-static-top">
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+            {% include '_templates/pmm_lte/dropdowns/dropdown-navbar-webmail.twig' %}
+            {% include '_templates/pmm_lte/dropdowns/dropdown-navbar-jabber.twig' %}
+            {% include '_templates/pmm_lte/dropdowns/dropdown-navbar-messages.twig' %}
+            {% include '_templates/pmm_lte/dropdowns/dropdown-navbar-user.twig' %}
+            {% include '_templates/pmm_lte/dropdowns/dropdown-navbar-sistemaspmm.twig' %}
+          <!-- Control Sidebar Toggle Button -->
+          <li>
+            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+
+  {% include '_templates/pmm_lte/menus/menu-side-left.twig' %}
+
+  <div class="content-wrapper">
+      {% include '_templates/pmm_lte/content-header.twig' %}
+      {% include '_templates/pmm_lte/content.twig' with {content: block('content')} %}
+  </div>
+
+  <footer class="main-footer">
+  {% include '_templates/pmm_lte/footer.twig' %}
+  </footer>
+
+  {% include '_templates/pmm_lte/menus/menu-side-right.twig' %}
+</div>
+{# VARIAVEIS ESSENCIAIS PARA O FUNCIONAMENTO DA APPLICAÇÃO #}
+<script type="text/javascript">
+    {% set debug_value  = (debug) ? "var debug = true; " : "var debug = false;" %}
+    var url = "{{URL}}";
+    var controller = "{{controller}}";
+    var method = "{{method}}";
+    var theme = "{{theme}}"
+    {{debug_value}}
+    var query = location.search;
+    var path = location.pathname;
+    var expire = 30;
+    var generator = false;
+</script>
+
+{# PLUGINS ESSENCIAIS PARA O FUNCIONAMENTO DA APPLIAÇÃO (Utilizar bower/gulp) #}
+<script src="{{URL}}assets/js/plugins.js"></script>
+
+{# AUTOLOAD DO SCRIPT DO TEMPLATE (Padrão antigo) NOTA: Não recomendado a utilizar #}
+{{app_js | raw}}
+
+{# AUTOLOAD DOS SCRIPTS DOS TEMPLATES #}
+{{load_js()}}
+
+</body>
+</html>

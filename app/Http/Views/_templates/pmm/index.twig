@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="{{page_lang}}">
+    <head>
+        <meta charset="{{page_charset}}"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{app_title}}</title>
+        <link rel="shortcut icon" type="image/x-icon" href="{{URL}}images/{{theme}}/favicon.ico">
+        <link rel="stylesheet" href="{{URL}}assets/dist/plugins.css" type="text/css"/>
+        {{app_css | raw}}
+        {{load_css()}}
+        {% block page_header %}{% endblock %}
+    </head>
+
+    <body>
+        <div id="container">
+            <div id="header" class="navbar navbar-default navbar-static-top">
+                <div class="container">
+                    <div class="navbar-header-fluid">
+                        <a href="{{URL}}">
+                            <img class="logo left logo-left hidden-sm hidden-xs" src="{{URL}}images/{{theme}}/logo-dsti.svg">
+                            <img class="logo left logo-left visible-sm visible-xs" src="{{URL}}images/{{theme}}/logo-dsti.svg" style="width:140px">
+                        </a>
+                        {% set logo_sistema = 'images/' ~ theme ~ image ~ '/logo-' ~ app_name | lower ~ '.svg' %}
+                        {% if (app_name) %}
+                            <img class="logo right logo-right  hidden-sm hidden-xs" src="{{URL}}images/pmm/contratos_dsti_logo.svg">
+                            <img class="logo right logo-right  visible-sm visible-xs" src="{{URL}}images/pmm/contratos_dsti_logo.svg" style="width:140px">
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+
+            {% if not disable_menu %}
+                <div id='menufixed' class="navbar navbar-default" role="navigation">
+                    <div class="container">
+                        {% include '_templates/pmm/menu.twig' %}
+                    </div>
+                </div>
+            {% endif %}
+
+
+            <div id="body" class="container">
+                <div class="container-fluid">
+                    {% if not disable_breadcrumb %}
+                        {{breadcrumb | raw}}
+                    {% endif %}
+
+                    {% block content %}
+                        {# BLOCO DE CONTEUDO #}
+                    {% endblock %}
+                </div>
+            </div>
+
+            <footer id="footer" class="footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-9" style="font-size:0.85em; text-align:left; margin-top:20px;">
+                            <p>
+                                Desenvolvido pelo Departamento de Sistemas e Tecnologias da Informação - DSTI / SEMAD</p>
+
+                            <p>Suporte:
+                                <a href="tel:92988427838" target="_blank">(92) 98842-7838</a>
+                                /
+                                <a href="tel:92988551465" target="_blank">98855-1465</a>
+                                /
+                                <a href="tel:92988445043" target="_blank">98844-5043</a>
+                                /
+                                <a href="mailto:sistemaspmm@pmm.am.gov.br" target="_blank">sistemaspmm@pmm.am.gov.br</a>
+                            </p>
+
+                            <p>
+                                <a href="http://semad.manaus.am.gov.br" target="_blank">http://semad.manaus.am.gov.br</a>
+                            </p>
+                        </div>
+
+                        <div class="col-md-3 text-right hidden-sm hidden-xs">
+                            <a class="right" href="http://sistemaspmm.manaus.am.gov.br/" target="_blank">
+                                <img src="{{URL}}images/{{theme}}/logo.svg" style="width:300px;height:100px"/>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        {# AQUI CARREGA AS MODALS #}
+        {% block modals %}{% endblock %}
+        {% include '@view/_modals/modal.gitlog.twig' ignore missing %}
+        {% include '@view/_modals/modal.alterarSenha.twig' ignore missing %}
+    </body>
+
+    {# VARIAVEIS ESSENCIAIS PARA O FUNCIONAMENTO DA APPLICAÇÃO #}
+    <script type="text/javascript">
+        {% set debug_value  = (debug) ? "var debug = true; " : "var debug = false;" %}
+        var url = "{{URL}}";
+        var controller = "{{controller}}";
+        var method = "{{method}}";
+        var theme = "{{theme}}"
+        {{debug_value}}
+        var query = location.search;
+        var path = location.pathname;
+        var expire = 30;
+        var generator = false;
+    </script>
+
+    {# PLUGINS ESSENCIAIS PARA O FUNCIONAMENTO DA APPLIAÇÃO (Utilizar bower/gulp) #}
+    <script type="text/javascript" src="{{URL}}assets/dist/plugins.js"></script>
+
+    {# AUTOLOAD DO SCRIPT DO TEMPLATE (Padrão antigo) NOTA: Não recomendado a utilizar #}
+    {{app_js | raw}}
+
+    {# AUTOLOAD DOS SCRIPTS DOS TEMPLATES #}
+    {{load_js()}}
+
+    {# SCRIPTS ADICIONAIS PELO TEMPLATE #}
+    {% block page_scripts %}{% endblock %}
+
+    {# PHP DEBUG BAR #}
+    {% if debug %}
+        {{debugbar_body | raw}}
+    {% endif %}
+</html>

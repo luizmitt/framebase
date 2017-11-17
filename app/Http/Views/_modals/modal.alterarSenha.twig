@@ -1,0 +1,65 @@
+<div id="alterarSenhaPmm" class="modal fade" tabindex="-1" role="dialog" style="margin-top:150px;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Alterar senha</h4>
+      </div>
+
+      <div class="modal-body form-alterar-senha">
+
+          <div class="row">
+              <div class="col-md-12">
+                  <label class="obrigatorio">SENHA ATUAL</label>
+                  <input id="as_current_password" type="password" class="form-control" required/>
+              </div>
+          </div>
+
+          <hr/>
+
+          <div class="alert alert-info" style="font-size:x-small">
+              <p style='padding-bottom:10px'>
+                  <strong>Por medidas de segurança, preencha sua nova senha conforme as regras abaixo:</strong>
+              </p>
+              <ul style="padding-left:15px">
+                  <li>no mínimo <b>6</b> caracteres</li>
+                  <li>no mínimo <b>1</b> leta minúscula</li>
+                  <li>no mínimo <b>1</b> letra maiuscula</li>
+                  <li>no mínimo <b>1</b> número</li>
+                  <li>não possua sequencia numerica</li>
+                  <li>não possua caracteres especiais ex: <b>!@#$%_&*</b></li>
+              </ul>
+          </div>
+
+          <div class="row">
+              <div class="col-md-12" style="padding-bottom:5px;">
+                  <label class="obrigatorio">NOVA SENHA</label>
+                  <input id="as_new_password" type="password" class="form-control" required/>
+                  <span style="float:left;width:100%;height:6px;border-radius:1px;border:1px solid #ccc;overflow:hidden;">
+                      <span id="bar" style="float:left;height:100%;background-color:green"></span>
+                  </span>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-12">
+                  <label class="obrigatorio">CONFIRMAR NOVA SENHA</label>
+                  <input id="as_new_confirm_password" type="password" class="form-control" required/>
+              </div>
+          </div>
+
+          <div id="alert_error" class="row" style="margin-top:15px;display:none;">
+              <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span id="msg_error"></span>
+              </div>
+          </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button id="btn_alterar_senha" type="button" class="btn btn-primary" disabled><i></i>Alterar Senha</button>
+      </div>
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

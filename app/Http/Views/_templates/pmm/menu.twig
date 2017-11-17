@@ -1,0 +1,99 @@
+<div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+
+</div>
+<div class="navbar-collapse collapse">
+
+    <!-- MENU ESQUERDA -->
+    <ul class="nav navbar-nav">
+        <li>
+            <a href="{{URL}}painel">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                INÍCIO
+            </a>
+        </li>
+        {{generateMenu(configure['app']['APP_NAME']) | raw}}
+    </ul>
+
+    <!-- MENU DIREITA -->
+    <ul class="nav navbar-nav navbar-right" style="margin-right:5px">
+        <li>
+            <a style='font-size:0.80em; font-weight:bold'>{{session.TX_LOGIN}}</a>
+        </li>
+        <li>
+            <a id="menu-search-init" href="#" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" style="height:auto; max-height:500px; overflow-y:scroll">
+                <li>
+                    <div class="col-md-12">
+                        <input type="hidden" id="SN00" value="{{configure['app']['APP_NAME']}}"/>
+                        <input id="menu-search" type="search" style="width:200px;" class="form-control" placeholder="Busca Rápida"/>
+                    </div>
+                </li>
+                <span id="menu-found"></span>
+            </ul>
+        </li>
+
+        <li>
+            <a href="#" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <span class="dropdown-header"><strong>Ambiente</strong></span>
+                </li>
+                <li>
+                    <span style='font-size:0.65em; margin-left:20px;'>{{environment_current}}</span>
+                </li>
+                <li role="separator" class="divider"></li>
+                <li>
+                    <a class="dropdown-header">Ferramentas</a>
+                </li>
+                {% if session.s_environment == "dev" %}
+                    <li>
+                        <a href="{{URL}}docs/">
+                            <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
+                            Documentação</a>
+                    </li>
+                    <li>
+                        <a href="{{URL}}pmm-generator">
+                            <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                            Gerador de Código</a>
+                    </li>
+                {% endif %}
+
+                <li>
+                    <a href='#' onclick="javascript:carregaLogGit();" data-toggle="modal" data-target="#gitLog">
+                        <i class='glyphicon glyphicon-zoom-in'></i>
+                        Histórico de Atualizações</a>
+                </li>
+
+                {% if session.s_environment == "pro" %}
+                    <li>
+                        <a class="dropdown-header">Meus Sistemas</a>
+                        {#getUserSys() |raw#}
+                    </li>
+                {% endif %}
+                <li class="dropdown-header">Sair do Sistema</li>
+                <li>
+                    <a href="{{URL}}autenticacao/logout">
+                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                        Sair</a>
+                </li>
+                <li>
+                    <a href="#" style="font-size:small">
+                        {{thupan_version}}
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>

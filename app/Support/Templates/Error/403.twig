@@ -1,0 +1,26 @@
+{% set disable_menu       = true %}
+{% set disable_breadcrumb = true %}
+
+{% extends "_templates/pmm/index.twig" %}
+{% block content %}
+
+<div class="text-center">
+    <h1>Oopss... Esta área está restrita</h1>
+    <h5>Você não tem acesso ou permissão no link informado.</h5>
+</div>
+
+
+<div class="text-center" style="font-size:150px">403</div>
+
+{% if message %}
+    <p class="text-center"><small>{{message}}</small></p>
+{% endif %}
+
+<hr/>
+
+<div class="text-center">
+    <a href="#" onclick="javascript:history.go(-1); return false;">Retornar à página anterior</a> -
+    <a href="{{URL}}">Ir para à página inicial</a> -
+    <a href="{{URL}}feedback">Feedback</a>
+</div>
+{% endblock %}
