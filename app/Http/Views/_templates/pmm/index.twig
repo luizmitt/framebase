@@ -5,7 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{app_title}}</title>
-        <link rel="shortcut icon" type="image/x-icon" href="{{URL}}images/{{theme}}/favicon.ico">
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
         <link rel="stylesheet" href="{{URL}}assets/dist/plugins.css" type="text/css"/>
         {{app_css | raw}}
         {{load_css()}}
@@ -91,12 +91,10 @@
 
     {# VARIAVEIS ESSENCIAIS PARA O FUNCIONAMENTO DA APPLICAÇÃO #}
     <script type="text/javascript">
-        {% set debug_value  = (debug) ? "var debug = true; " : "var debug = false;" %}
         var url = "{{URL}}";
         var controller = "{{controller}}";
         var method = "{{method}}";
         var theme = "{{theme}}"
-        {{debug_value}}
         var query = location.search;
         var path = location.pathname;
         var expire = 30;
@@ -105,6 +103,9 @@
 
     {# PLUGINS ESSENCIAIS PARA O FUNCIONAMENTO DA APPLIAÇÃO (Utilizar bower/gulp) #}
     <script type="text/javascript" src="{{URL}}assets/dist/plugins.js"></script>
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+    </script>
 
     {# AUTOLOAD DO SCRIPT DO TEMPLATE (Padrão antigo) NOTA: Não recomendado a utilizar #}
     {{app_js | raw}}
@@ -114,9 +115,4 @@
 
     {# SCRIPTS ADICIONAIS PELO TEMPLATE #}
     {% block page_scripts %}{% endblock %}
-
-    {# PHP DEBUG BAR #}
-    {% if debug %}
-        {{debugbar_body | raw}}
-    {% endif %}
 </html>

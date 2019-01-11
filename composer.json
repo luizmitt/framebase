@@ -8,7 +8,6 @@
         "homepage": "http://github.com/thupan",
         "role": "Developer"
     }],
-
     "repositories": [{
         "type": "package",
         "package": {
@@ -21,7 +20,6 @@
             }
         }
     }],
-
     "require": {
         "php": ">=5.5.0",
         "thupan/framework": "dev-develop",
@@ -37,10 +35,6 @@
         "post-install-cmd": [],
         "thupan-install": "sh ${PWD}/resources/scripts/config_install.sh",
         "post-update-cmd": [],
-        "thupan-update": "sh ${PWD}/resources/scripts/config_update.sh",
-        "thupan-start": "php -elswS 0.0.0.0:8080 -t public public/index.php",
-        "thupan-test": "phpunit",
-        "thupan-autoload": "composer dump-autoload -o --profile -vvv",
         "build": "sh ${PWD}/resources/scripts/build.sh"
     }
 }

@@ -9,9 +9,9 @@ return [
     | Esse valor determina dados da app.
     |
     */
-    'APP_NAME'    => 'NOME_SISTEMA', // necessario ser o mesmo nome que esta na tabela de SISTEMA
-    'APP_VERSION' => 'beta',
-    'APP_TITLE'   => 'Sistemas PMM',
+    'APP_NAME' => 'NOME_SISTEMA', // necessario ser o mesmo nome que esta na tabela de SISTEMA
+    'APP_VERSION' => '1.0.0',
+    'APP_TITLE' => 'Sistemas PMM',
 
     /*
     |--------------------------------------------------------------------------
@@ -91,16 +91,16 @@ return [
     | Este determina a configuração do gerenciador de templates.
     |
     */
-    'TWIG_VIEWS'                => __DIR__ . '/../Http/Views/',
-    'TWIG_CACHE'                => __DIR__ . '/../Store/Cache/',
-    'TWIG_AUTO_ESCAPE'          => true,
-    'TWIG_AUTO_RELOAD'          => true,
-    'TWIG_TAG_BLOCK'            => ['{%', '%}'],
-    'TWIG_TAG_VARIABLE'         => ['{{', '}}'],
-    'TWIG_TAG_COMMENT'          => ['{#', '#}'],
-    'TWIG_TAG_INTERPOLATION'    => ['#{', '}'],
-    'TWIG_PAGE_LANG'            => 'pt_BR',
-    'TWIG_PAGE_CHARSET'         => 'utf8',
+    'TWIG_VIEWS' => __DIR__.'/../Http/Views/',
+    'TWIG_CACHE' => __DIR__.'/../Store/Cache/',
+    'TWIG_AUTO_ESCAPE' => true,
+    'TWIG_AUTO_RELOAD' => true,
+    'TWIG_TAG_BLOCK' => ['{%', '%}'],
+    'TWIG_TAG_VARIABLE' => ['{{', '}}'],
+    'TWIG_TAG_COMMENT' => ['{#', '#}'],
+    'TWIG_TAG_INTERPOLATION' => ['#{', '}'],
+    'TWIG_PAGE_LANG' => 'pt_BR',
+    'TWIG_PAGE_CHARSET' => 'utf8',
 
     /*
     |--------------------------------------------------------------------------
@@ -109,6 +109,6 @@ return [
     | Este determina a configuração de sessão
     |
     */
-    'SESSION_EXPIRE'            => 60, // min
-    'SESSION_COOKIE_HTTPONLY'   => true,
+    'SESSION_EXPIRE' => 60, // min
+    'SESSION_COOKIE_HTTPONLY' => true,
 ];
