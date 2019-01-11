@@ -13,7 +13,7 @@ class Autenticacao extends Model {
 
         $password = md5($password);
 
-        $data = self::query("SELECT count(ID_USUARIO) as LOGADO FROM USUARIO_PBPG WHERE TX_LOGIN = '{$username}' AND TX_SENHA = '{$password}' ");
+        $data = self::query("SELECT count(ID_USUARIO) as LOGADO FROM USUARIO WHERE TX_LOGIN = '{$username}' AND TX_SENHA = '{$password}' ");
 
         return $data[0]['LOGADO'] == 1 ? true : false;
     }

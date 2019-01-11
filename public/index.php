@@ -1,5 +1,5 @@
-<?php
- // não deixa os headers serem enviados ate que ocorra um clean.
+<?php 
+// não deixa os headers serem enviados ate que ocorra um clean.
 ob_start();
 
 header("X-Frame-Options: Deny");
@@ -9,14 +9,8 @@ if (file_exists($tools_pmm = __DIR__ . '/../vendor/thupan/pmm/src/tools.php')) {
     require $tools_pmm;
 }
 
-// utilitarios e funções essenciais do frame
-if (file_exists($tools_thupan = __DIR__ . '/../vendor/thupan/framework/src/Support/tools.php')) {
+if (file_exists($tools_thupan = __DIR__ . '/../vendor/thupan/framework/src/tools.php')) {
     require $tools_thupan;
-}
-
-// utilitarios e funcoes opcionais da app
-if(file_exists($tools_app = __DIR__ . '/../app/Support/tools.php')) {
-    require $tools_app;
 }
 
 // Override
@@ -37,10 +31,21 @@ ini_set("upload_max_filesize", "30M");
 
 error_reporting(E_ALL  & ~E_NOTICE);
 
-$autoload = __DIR__ . '/../app/Boot/autoload.php';
+/**
+ * Verifica se o autoload do composer existe.
+ */
+$composer = __DIR__ . '/../vendor/autoload.php';
 
-// carrega o autoload
-file_exists($autoload) ? require $autoload : die("<h3 style='width:100%;height:auto;padding:30px;text-align:center'>Oopss! Ocorreu um erro na instalação do framework.<br> Certifique se todos os arquivos foram copiados ou descompactados corretamente <br><small style='float:right; margin-right:50px; font-weight:normal'>thupanframework</small></h3>");
+file_exists($composer) ? require $composer : die("<h3 style='width:100%;height:auto;padding:30px;text-align:center'>É necessário a instalação do composer para inicializar o sistema. (<a href='https://getcomposer.org/doc/00-intro.md'>https://getcomposer.org/doc/00-intro.md</a>)<br><small style='float:right; margin-right:50px; font-weight:normal'>thupanframework</small></h3>");
+
+/**
+ * Carrega o bootstrap da app.
+ */
+require __DIR__ . '/../vendor/thupan/pmm/src/PmmLoader.php';
+require __DIR__ . '/../vendor/thupan/pmm/src/PmmFilterAuth.php';
+require __DIR__ . '/../vendor/thupan/pmm/src/PmmFilterModel.php';
+
+define('GENERATOR_DEFAULT_DB_DRIVER', 'oci');
 
 // inicializa as rotas
 \Routing\Router::dispatch();

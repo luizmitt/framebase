@@ -35,7 +35,7 @@ return [
 	| Modo database: true.
 	|
 	*/
-	'DB_AUTH' => true,
+	'DB_AUTH' => false,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -75,14 +75,14 @@ return [
 
 		'dev' => [
 			[
-			'driver'      => 'oci',
+			'driver'      => 'mysql',//'oci',
 			'autoload'    => true,
 			'connection'  => 'conn1',
-			'database'    => 'pmmdev',
-			'host'        => '172.17.131.45', //'172.18.1.160',
-			'port'        => '1521',
-			'username'    => '',
-			'password'    => '',
+			'database'    => 'mydb',//'pmmdev',
+			'host'        => 'localhost',//'172.17.131.45', //'172.18.1.160',
+			'port'        => '3306',//'1521',
+			'username'    => 'root',
+			'password'    => 'mysql1',
 			],
 
 			[

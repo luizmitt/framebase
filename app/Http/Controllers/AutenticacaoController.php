@@ -76,10 +76,10 @@ class AutenticacaoController extends Controller {
 
     public function index() {
         View::assign('environment', [
-                                ''     => translate('app', 'choose'),
-                                'dev'  => translate('app', 'development'),
-                                'hom'  => translate('app', 'statement'),
-                                'pro'  => translate('app', 'production'),
+                                ''     => 'Escolha...',
+                                'dev'  => 'Desenvolvimento',
+                                'hom'  => 'Homologação',
+                                'pro'  => 'Produção',
         ]);
 
         View::render("autenticacao/index");
@@ -151,7 +151,7 @@ class AutenticacaoController extends Controller {
                     Session::set('s_loggedIn', Session::get('s_token') . md5($data['username'].$data['password']));
                     Session::set('TX_LOGIN', $data['username']);
                 } else {
-                    View::flash(translate('autenticacao', 'login_invalid'), 'danger');
+                    View::flash('Usuário ou Senha inválidos', 'danger');
                 }
             }
 

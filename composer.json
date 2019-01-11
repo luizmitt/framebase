@@ -33,8 +33,6 @@
     },
     "scripts": {
         "post-install-cmd": [],
-        "thupan-install": "sh ${PWD}/resources/scripts/config_install.sh",
-        "post-update-cmd": [],
-        "build": "sh ${PWD}/resources/scripts/build.sh"
+        "post-update-cmd": []
     }
 }
