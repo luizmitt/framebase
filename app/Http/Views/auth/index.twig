@@ -1,0 +1,177 @@
+{% extends "_templates/pmm/auth/auth.twig" %}
+{% block content %}
+
+<login inline-template>
+    <section id="login">
+
+        <div class="col-12 login-header"></div>
+
+        <div class="">
+            <div class="hidden-xs col-md-4"></div>
+            <div class="col-xs-12 col-md-4 col-lg-4 login-container">
+                <div class="row">
+                    <div class="col-xs-6 col-md-6">
+                        <img class="img-responsive left login-logo" src="{{URL}}images/pmm/logo-dsti.svg">
+                    </div>
+
+                    <div class="col-xs-6 col-md-6">
+                        <img class="img-responsive right login-logo" src="{{URL}}images/pmm/contratos_dsti_logo.png">
+                    </div>
+                </div>
+                <div class="container">
+                    <form autocomplete="off">
+                        <div id="step1" class="container" v-show="auth.step == 1">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <h3>Entrar</h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="label-control">Conta</label>
+                                <input class="form-control" placeholder="Infome seu usuário, e-mail pmm ou cpf">
+                            </div>
+
+                            <div class="row">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"> Lembrar - me
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row text-right">
+                                <button type="button" class="btn btn-primary" @click="next()">
+                                    Próximo
+                                    <i class="fa fa-angle-double-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="step2" class="container" v-show="auth.step == 2">
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h3>Bem vindo(a), </h3>
+
+                                    <div class="container login-user-data text-left">
+                                        <img src="{{URL}}foto_teste.jpg" class="img-responseive login-user-picture">
+                                        <label>LUIZ FABIO SCHMITT VIEIRA</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="label-control">Senha</label>
+                                <input class="form-control" type="password" placeholder="Infome a sua senha">
+                            </div>
+
+                            <div class="row">
+                                <ul class="login-list">
+                                    <li><a href="#" @click="forget()">Esqueceu sua senha?</a></li>
+                                    <li><a href="#">Não é você?</a></li>
+                                    <li><a href="#" @click="list()">Lista de usuários lembrados</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="row text-right">
+                                <button type="button" class="btn btn-primary">
+                                    <i class="fa fa-sign-in"></i>
+                                    Entrar
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="step3" class="container" v-show="auth.step == 3">
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h3>Quem é você? </h3>
+                                    <h4>Existe mais de uma conta registrada neste navegador. Para entrar no sistema, selecione a sua conta:</h4>
+
+                                    <ul class="login-list login-user-list">
+                                        <li>
+                                            <div class="container login-user-data text-left">
+                                                <img src="{{URL}}foto_teste.jpg" class="img-responseive login-user-picture">
+                                                <label>LUIZ FABIO SCHMITT VIEIRA</label>
+                                                <i class="fa fa-close login-user-remove"></i>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="container login-user-data text-left">
+                                                <i class="fa fa-user login-user-no-picture"></i>
+                                                <label>BRUNO ALEXANDRE SCHMITT VIEIRA</label>
+                                                <i class="fa fa-close login-user-remove"></i>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <ul class="login-list">
+                                    <li><a href="#" @click="nolist()">Não estou na lista</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="row text-right">
+                                <button type="button" class="btn btn-default" @click="cancel()">
+                                    <i class="fa fa-close"></i>
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="step4" class="container" v-show="auth.step == 4">
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h3>Recuperar Senha</h3>
+                                    <h4>Para redefinir a senha de sua conta é necessário confirmar o e-mail abaixo:</h4>
+
+                                    <div class="container login-user-data text-left">
+                                        <img src="{{URL}}foto_teste.jpg" class="img-responseive login-user-picture">
+                                        <label>LUIZ FABIO SCHMITT VIEIRA</label>
+                                    </div>
+
+                                    <div class="container text-center login-user-email">
+                                        <label>lui******i*t@pmm.am.gov.br</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="label-control">Confirmar E-mail</label>
+                                <input class="form-control" type="text" placeholder="Confirme o seu e-mail pmm">
+                            </div>
+
+                            <div class="row">
+                                <ul class="login-list">
+                                    <li><a href="#">Não é você?</a></li>
+                                    <li><a href="#" @click="list()">Lista de usuários lembrados</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="row">
+                                <div class="left">
+                                    <button type="button" class="btn btn-default" @click="cancel()">
+                                        <i class="fa fa-close"></i>
+                                        Cancelar
+                                    </button>
+                                </div>
+
+                                <div class="right">
+                                    <button type="button" class="btn btn-primary">
+                                        <i class="fa fa-send"></i>
+                                        Enviar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="hidden-xs col-md-4"></div>
+        </div>
+
+        <!--<img src="{{URL}}brasao_pmm.png" class="img-responsive login-logo-pmm">-->
+    </section>
+</login>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="{{page_lang}}">
+<head>
+    <meta charset="{{page_charset}}" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{app_title}}</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="{{URL}}assets/dist/plugins.css" type="text/css" />
+    {{load_css()}}
+</head>
+
+<body>
+    <div id="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    {# VARIAVEIS ESSENCIAIS PARA O FUNCIONAMENTO DA APPLICAÇÃO #}
+    <script type="text/javascript">
+        const url = "{{URL}}";
+    </script>
+
+    {# PLUGINS ESSENCIAIS PARA O FUNCIONAMENTO DA APPLIAÇÃO (Utilizar bower/gulp) #}
+    <script type="text/javascript" src="{{URL}}assets/dist/plugins.js"></script>
+
+    {# AUTOLOAD DOS SCRIPTS DOS TEMPLATES #}
+    {{load_js()}}
+
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+
+        const app = new Vue({
+            el: '#container',
+            delimiters: ["[%", "%]"]
+        });
+    </script>
+</body>
+</html>

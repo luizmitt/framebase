@@ -1,0 +1,132 @@
+body {
+    background-color:#efefef;
+}
+.login-container {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding-bottom: 30px;
+    background-color:#fff;
+}
+.login-logo {
+    width:150px; 
+    padding-top:10px;
+}
+.login-user-picture {
+    width:80px;
+    height:80px;
+    border-radius:10px;
+    float:left;
+}
+.login-user-no-picture {
+    font-size:80px;
+    width:80px;
+    height:80px;
+    text-align:center;
+    color:#666;
+    border-radius:10px;
+    float:left;
+}
+.login-user-data label {
+  line-height:2;
+  float:left;
+  margin-top:30px;
+  margin-left:5px;
+  font-size:14px;
+  cursor:pointer;
+}
+.login-list {
+    margin:0;
+    padding:0;
+    list-style:none;
+}
+.login-user-list li {
+    border:1px solid #ddd;
+    margin-bottom:1px;
+    position:relative;
+    padding:5px;
+    color:#888;
+    background-color:#eee;
+    opacity: 0.6;
+}
+.login-user-list li:first-child {
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+}
+.login-user-list li:last-child {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+.login-user-list li:hover {
+    cursor:pointer;
+    background-color:#ffff;
+    color:#000;
+    opacity: 1;
+}
+.login-user-remove {
+    position:absolute;
+    right:10px;
+    font-size:20px;
+    color:#000;
+    opacity:1 !important;
+    z-index:999;
+}
+.login-logo-pmm {
+    position: absolute;
+    bottom:0;
+    right:0;
+    left:50%;
+    margin-left:-450px;
+    top:0;
+    opacity:0.1;
+    width:900px;
+    height:100%;
+    z-index:-9999;
+}
+.login-user-email {
+    font-size:20px;
+    padding:20px;
+    color:#333;
+}
+input {
+    padding-top:25px !important;
+    padding-bottom:25px !important;
+    font-size:14px !important;
+    font-weight:bold;
+}
+button {
+    padding:16px !important;
+    font-size:14px !important;;
+    font-weight:bold !important;;
+}
+
+/* Extra small devices (phones, less than 768px) / / No media query since this is the default in Bootstrap */
+
+/* Small devices (tablets, 768px and up) */
+@media (max-width:992px) {
+    .login-container {
+        border:none;
+    }
+
+    .login-logo-pmm {
+        position: absolute;
+        opacity:0.1;
+        margin-left:-225px;
+        z-index:-9999;
+        width:500px;
+        height:100%;
+    }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .login-container {
+        margin-top:100px;
+        min-width:500px !important;
+        max-width:600px !important;
+    }   
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+
+}
