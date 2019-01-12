@@ -3,6 +3,10 @@ const login = Vue.component('login', {
         return {
             auth: {
                 step:1,
+                alertbox: {
+                    message:'',
+                    type:'info'
+                }
             },
 
             user: {
@@ -22,7 +26,13 @@ const login = Vue.component('login', {
 
     methods: {
         next() {
-            this.auth.step = 2
+            const login = this.user.login;
+
+            if (login.length) {
+                this.auth.step = 2
+            } else {
+                this.alertbox("você precisa informar uma conta de acesso para prosseguir.", "danger")
+            }
         },
         
         enter() {
@@ -42,8 +52,13 @@ const login = Vue.component('login', {
             this.auth.step = 4
         },
 
-        cancel() {
-            this.auth.step = 1
+        cancel(step = 1) {
+            this.auth.step = step
+        },
+
+        alertbox(message = '', type = 'info') {
+            this.auth.alertbox.message = message;
+            this.auth.alertbox.type = type;
         },
 
         reset() {
@@ -71,6 +86,19 @@ const login = Vue.component('login', {
         }
 
 
+    },
+
+    computed: {
+        compiledAlertbox() {
+            return {
+                template: `<div class="alert alert-${this.auth.alertbox.type} alert-dismissible" role="alert">
+                                <p>${this.auth.alertbox.message}</p>
+                                <button type="button" class="close" aria-label="Close">
+                                    <span aria-hidden="true" class="fa fa-close"></span>
+                                </button>
+                            </div>`
+            }
+        }
     },
 
     mounted() {

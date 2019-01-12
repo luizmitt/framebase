@@ -1,6 +1,19 @@
 body {
-    background-color:#efefef;
+    background-color:#2C3E50;
 }
+a {
+    font-weight:bold;
+    color:#56729C;
+}
+a:hover {
+    text-decoration:none;
+    color:#33445D;
+}
+
+.btn-primary {
+    background-color:#56729C;
+}
+
 .login-container {
     border: 1px solid #ccc;
     border-radius: 6px;
@@ -38,6 +51,8 @@ body {
     margin:0;
     padding:0;
     list-style:none;
+    margin-top:5px;
+    margin-bottom:5px;
 }
 .login-user-list li {
     border:1px solid #ddd;
@@ -114,6 +129,9 @@ button {
         z-index:-9999;
         width:500px;
         height:100%;
+    }
+    body {
+        background-color:#fff;
     }
 }
 

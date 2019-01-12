@@ -19,22 +19,25 @@
                     </div>
                 </div>
                 <div class="container">
-                    <form autocomplete="off">
+                    <form autocomplete="false">
                         <div id="step1" class="container" v-show="auth.step == 1">
                             <div class="row">
                                 <div class="col-12 text-center">
                                     <h3>Entrar</h3>
                                 </div>
                             </div>
+
+                            <div class="row" :is="compiledAlertbox" v-show="auth.alertbox.message"></div>
+
                             <div class="row">
                                 <label class="label-control">Conta</label>
-                                <input class="form-control" placeholder="Infome seu usuário, e-mail pmm ou cpf">
+                                <input class="form-control" type="text" id="username" name="username" tabindex="1" placeholder="Infome seu usuário, e-mail pmm ou cpf" v-model="user.login">
                             </div>
 
                             <div class="row">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox"> Lembrar - me
+                                        <input type="checkbox" v-model="user.remember"> Lembrar - me
                                     </label>
                                 </div>
                             </div>
@@ -60,13 +63,13 @@
                             </div>
                             <div class="row">
                                 <label class="label-control">Senha</label>
-                                <input class="form-control" type="password" placeholder="Infome a sua senha">
+                                <input class="form-control" type="password" id="password" name="password" tabindex="2" placeholder="Infome a sua senha" v-model="user.password">
                             </div>
 
                             <div class="row">
                                 <ul class="login-list">
                                     <li><a href="#" @click="forget()">Esqueceu sua senha?</a></li>
-                                    <li><a href="#">Não é você?</a></li>
+                                    <li><a href="#" @click="cancel()">Não é você?</a></li>
                                     <li><a href="#" @click="list()">Lista de usuários lembrados</a></li>
                                 </ul>
                             </div>
@@ -143,14 +146,14 @@
 
                             <div class="row">
                                 <ul class="login-list">
-                                    <li><a href="#">Não é você?</a></li>
+                                    <li><a href="#" @click="cancel()">Não é você?</a></li>
                                     <li><a href="#" @click="list()">Lista de usuários lembrados</a></li>
                                 </ul>
                             </div>
 
                             <div class="row">
                                 <div class="left">
-                                    <button type="button" class="btn btn-default" @click="cancel()">
+                                    <button type="button" class="btn btn-default" @click="cancel(2)">
                                         <i class="fa fa-close"></i>
                                         Cancelar
                                     </button>
