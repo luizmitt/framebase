@@ -42,9 +42,9 @@ const login = Vue.component('login', {
                 name: '',
                 email: '',
                 cpf: '',
-                nickname:'',
-                picture:'',
                 login:'',
+                picture:'',
+                username:'',
                 password:'',
                 remember:false
             },
@@ -55,9 +55,15 @@ const login = Vue.component('login', {
 
     methods: {
         next() {
-            const login = this.user.login;
+            if (this.user.username.length) {
+                
+                // axios - pegar dados do usuario
+                if (this.user.remember) {
+                    if (!this.addUser(this.user)) {
+                        this.alertbox("<strong>ATENÇÃO</strong> Este usuário não será lembrado, ocorreu um problema com seu navegador.", "warning")
+                    }
+                }
 
-            if (login.length) {
                 this.auth.step = 2
                 this.auth.alertbox.message=null
                 this.focus('password')
@@ -67,6 +73,10 @@ const login = Vue.component('login', {
         },
         
         enter() {
+            // axios
+        },
+
+        send() {
             // axios
         },
         
@@ -103,8 +113,26 @@ const login = Vue.component('login', {
             this.auth.alertbox.type = type
         },
 
-        reset() {
+        reset(cleanStorage = false) {
             // reseta todos os objetos para o padrão
+            this.auth.step = 1
+            this.auth.alertbox.message = null
+            this.auth.alertbox.type = 'info'
+            this.user.name = null
+            this.user.email = null
+            this.user.cpf   = null
+            this.user.login = null
+            this.user.picture = null
+            this.user.username = null
+            this.user.password = null
+            this.user.remember = false
+            this.users = []
+
+            if (cleanStorage) {
+                if (localStorage.getItem("auth_users") != null || localStorage.getItem("auth_users") != undefined) {
+                    localStorage.removeItem('auth_users')
+                }
+            }
         },
 
         resetUser() {
@@ -113,28 +141,68 @@ const login = Vue.component('login', {
                 name: '',
                 email: '',
                 cpf: '',
-                nickname:'',
-                picture:'',
                 login:'',
+                picture:'',
+                username:'',
                 password:'',
                 remember:false
             }
         },
 
-        remove(user) {
+        removeUser(user) {
             // remove um usuario do localstorage
+            if (this.getUser(user)) {
+                var users = this.getUsers() ? this.getUsers() : []
+                users.splice(this.getUser(user).index,1)
+                this.saveUser(users)
+                return true
+            }
+            return false
         },
 
-        add(user) {
+        addUser(user) {
             // adiciona um usuário ao localstorage
+            var users = this.getUsers() ? this.getUsers() : []
+
+            console.log(users);
+
+            if(!this.getUser(user)) {
+                console.log("nao esta cadastrado")
+                users.push(user)
+                this.saveUser(users);
+                return true
+            }
+
+            return false
+        },
+
+        saveUser(users) {
+            localStorage.removeItem('auth_users');
+            localStorage.setItem('auth_users', JSON.stringify(users));
         },
 
         getUser(user) {
             // verifica se o usuário existe no localstorage
+            var users = this.getUsers() ? this.getUsers() : []
+
+            users.forEach((obj,index) => {
+                console.log(obj, user)
+                if (user.username == obj.username) {
+                    console.log("encontrou o " + user.username)
+                    return {obj:obj,index:index};
+                }
+            });
+
+            return false
         },
 
         getUsers() {
             // retorna todos os usuarios do localstorage
+            if (localStorage.getItem('auth_users') == null || localStorage.getItem('auth_users') == undefined) {
+                return null;
+            }
+
+            return JSON.parse(localStorage.getItem('auth_users'));
         }
 
 
