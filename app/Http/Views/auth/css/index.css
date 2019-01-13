@@ -89,13 +89,9 @@ a:hover {
     position: absolute;
     bottom:0;
     right:0;
-    left:50%;
-    margin-left:-450px;
-    top:0;
-    opacity:0.1;
-    width:900px;
-    height:100%;
-    z-index:-9999;
+    opacity:0.4;
+    width:600px;
+    padding:30px;
 }
 .login-user-email {
     font-size:20px;

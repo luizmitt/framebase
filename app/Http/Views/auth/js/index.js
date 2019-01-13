@@ -84,36 +84,36 @@ const login = Vue.component('login', {
         next() {
             if (this.user.username.length) {
                 
-                // axios - pegar dados do usuario
+                // axios - pegar dados do usuario e atualiza o this.user
+                
                 if (this.user.remember) {
-                    if (!this.addUser(this.user)) {
-                        this.alertbox("<strong>ATENÇÃO</strong> Este usuário não será lembrado, ocorreu um problema com seu navegador.", "warning")
-                    }
+                    this.addUser(this.user)
                 }
-
-                this.auth.step = 2
+                
                 this.auth.alertbox.message=null
+                this.auth.step = 2
                 this.focus('password')
             } else {
                 this.alertbox("<strong>Atenção!</strong> É necessário informar uma conta de acesso para prosseguir.", "warning")
+                this.focus('username')
             }
         },
         
         enter() {
-            // axios
+            // axios - loga o this.user
         },
 
         send() {
-            // axios
+            // axios - envia um e-mail com o link de recuperacao do this.user. *Necessário acertar o e-mail coringa
         },
         
         list() {
             this.auth.step = 3
         
-
         },
 
         nolist() {
+            this.resetUser()
             this.auth.step = 1
             this.focus('username')
         },
@@ -183,6 +183,7 @@ const login = Vue.component('login', {
 
         removeUser(user) {
             // remove um usuario do localstorage
+            user = this.getVueObject(user)
             if (this.getUser(user)) {
                 var users = this.getUsers() ? this.getUsers() : []
                 users.splice(this.getUser(user).index,1)
@@ -194,12 +195,9 @@ const login = Vue.component('login', {
 
         addUser(user) {
             // adiciona um usuário ao localstorage
+            user = this.getVueObject(user)
             var users = this.getUsers() ? this.getUsers() : []
-
-            console.log(users);
-
             if(!this.getUser(user)) {
-                console.log("nao esta cadastrado")
                 users.push(user)
                 this.saveUser(users);
                 return true
@@ -210,22 +208,25 @@ const login = Vue.component('login', {
 
         saveUser(users) {
             localStorage.removeItem('auth_users');
-            localStorage.setItem('auth_users', JSON.stringify(users));
+            if (users.length) { 
+                localStorage.setItem('auth_users', JSON.stringify(users));
+            }
+            this.users = users;
         },
 
         getUser(user) {
             // verifica se o usuário existe no localstorage
+            user = this.getVueObject(user)
+            var user_found = false
             var users = this.getUsers() ? this.getUsers() : []
 
             users.forEach((obj,index) => {
-                console.log(obj, user)
                 if (user.username == obj.username) {
-                    console.log("encontrou o " + user.username)
-                    return {obj:obj,index:index};
+                    user_found = {obj:obj,index:index};
                 }
             });
 
-            return false
+            return (user_found) ? user_found : false
         },
 
         getUsers() {
@@ -235,6 +236,10 @@ const login = Vue.component('login', {
             }
 
             return JSON.parse(localStorage.getItem('auth_users'));
+        },
+
+        getVueObject(object) {
+            return JSON.parse(JSON.stringify(object))
         }
 
 
@@ -249,6 +254,11 @@ const login = Vue.component('login', {
 
         if (this.getUsers() != null) {
             this.users = this.getUsers()
+        }
+
+        if(!window.localStorage) {
+            // se o navegador não suportar localStorage desabilita o 'lembrar - me'
+            $("#remember").attr("disabled", "true")
         }
 
         $(".form-control-select2").select2();
