@@ -24,7 +24,7 @@ var jsFiles = [
     'node_modules/toastr/build/toastr.min.js',
     'resources/js/app.js',
     'vendor/thupan/pmm/resources/js/config.js',
-    'vendor/thupan/pmm/resources/js/app.js'
+   // 'vendor/thupan/pmm/resources/js/app.js'
 ]
 
 // personally written CSS

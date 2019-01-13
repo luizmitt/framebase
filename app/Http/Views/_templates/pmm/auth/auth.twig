@@ -31,7 +31,11 @@
 
         const app = new Vue({
             el: '#container',
-            delimiters: ["[%", "%]"]
+            delimiters: ["${", "}]"],
+            components: {
+                'login':login,
+                'alertbox':alertbox
+            }
         });
     </script>
 </body>

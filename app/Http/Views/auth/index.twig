@@ -27,11 +27,11 @@
                                 </div>
                             </div>
 
-                            <div class="row" :is="compiledAlertbox" v-show="auth.alertbox.message"></div>
+                            <alertbox class="row" v-bind:alert-config="auth"></alertbox>
 
                             <div class="row">
                                 <label class="label-control">Conta</label>
-                                <input class="form-control" type="text" id="username" name="username" tabindex="1" placeholder="Infome seu usuário, e-mail pmm ou cpf" v-model="user.login">
+                                <input class="form-control" type="text" id="username" name="username" ref="username" tabindex="1" placeholder="Infome seu usuário, e-mail pmm ou cpf" v-model="user.login" @keyup.enter="next()">
                             </div>
 
                             <div class="row">
@@ -63,7 +63,7 @@
                             </div>
                             <div class="row">
                                 <label class="label-control">Senha</label>
-                                <input class="form-control" type="password" id="password" name="password" tabindex="2" placeholder="Infome a sua senha" v-model="user.password">
+                                <input class="form-control" type="password" id="password" name="password" ref="password" tabindex="2" placeholder="Infome a sua senha" v-model="user.password" @keyup.enter="enter()">
                             </div>
 
                             <div class="row">
@@ -75,7 +75,7 @@
                             </div>
 
                             <div class="row text-right">
-                                <button type="button" class="btn btn-primary">
+                                <button type="button" class="btn btn-primary" @click="enter()">
                                     <i class="fa fa-sign-in"></i>
                                     Entrar
                                 </button>
@@ -141,7 +141,7 @@
                             </div>
                             <div class="row">
                                 <label class="label-control">Confirmar E-mail</label>
-                                <input class="form-control" type="text" placeholder="Confirme o seu e-mail pmm">
+                                <input class="form-control" type="email" id="email" name="email" ref="email" placeholder="Confirme o seu e-mail pmm" v-model="user.email" @click="send()">
                             </div>
 
                             <div class="row">
@@ -160,7 +160,7 @@
                                 </div>
 
                                 <div class="right">
-                                    <button type="button" class="btn btn-primary">
+                                    <button type="button" class="btn btn-primary" @click="send()">
                                         <i class="fa fa-send"></i>
                                         Enviar
                                     </button>
