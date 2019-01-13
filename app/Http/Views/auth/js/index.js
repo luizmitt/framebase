@@ -35,6 +35,33 @@ const login = Vue.component('login', {
                 alertbox: {
                     message:'',
                     type:'info'
+                },
+                label: {
+                    username:'Conta',
+                    username_placeholder:'Informe seu usuário, email pmm ou cpf',
+                    remember:'Lembrar - me',
+                    next:'Próximo',
+                    welcome:'Bem Vindo(a),',
+                    password:'Senha',
+                    password_placeholder:'Informe a sua senha',
+                    environment:'Ambiente',
+                    signin:'Entrar',
+                    cancel:'Cancelar',
+                    send:'Enviar',
+                    whoareyou:'Quem é você?',
+                    whoareyou_notification:'Existe mais de uma conta registrada neste navegador. Para entrar no sistema, selecione a sua conta:',
+                    recover_password:'Recuperar Senha',
+                    recover_password_notification:'Para redefinir a senha de sua conta é necessário confirmar o e-mail abaixo:',
+                    confirm_email:'Confirmar E-mail',
+                    forgot_password:'Esqueceu sua senha?',
+                    isnot_you:'Não é você?',
+                    remember_users:'Lista de usuários',
+                    nolist:'Não estou na lista',
+                    environments: [
+                        {id:'dev', text:'Desenvolvimento'},
+                        {id:'hom', text:'Homologação'},
+                        {id:'pro', text:'Produção'}
+                    ]
                 }
             },
 
@@ -82,11 +109,13 @@ const login = Vue.component('login', {
         
         list() {
             this.auth.step = 3
+        
 
         },
 
         nolist() {
             this.auth.step = 1
+            this.focus('username')
         },
 
         forget() {
@@ -99,6 +128,7 @@ const login = Vue.component('login', {
 
             if (step == 1) {
                 this.resetUser()
+                this.focus('username')
             }
         },
 
@@ -133,6 +163,8 @@ const login = Vue.component('login', {
                     localStorage.removeItem('auth_users')
                 }
             }
+
+            this.focus('username')
         },
 
         resetUser() {
@@ -214,5 +246,11 @@ const login = Vue.component('login', {
 
     mounted() {
         this.focus('username')
+
+        if (this.getUsers() != null) {
+            this.users = this.getUsers()
+        }
+
+        $(".form-control-select2").select2();
     }
 })

@@ -23,28 +23,28 @@
                         <div id="step1" class="container" v-show="auth.step == 1">
                             <div class="row">
                                 <div class="col-12 text-center">
-                                    <h3>Entrar</h3>
+                                    <h3>${auth.label.signin}</h3>
                                 </div>
                             </div>
 
                             <alertbox class="row" v-bind:alert-config="auth"></alertbox>
 
                             <div class="row">
-                                <label class="label-control">Conta</label>
-                                <input class="form-control" type="text" id="username" name="username" ref="username" tabindex="1" placeholder="Infome seu usuário, e-mail pmm ou cpf" v-model="user.username" @keyup.enter="next()">
+                                <label class="label-control">${auth.label.username}</label>
+                                <input class="form-control" type="text" id="username" name="username" ref="username" tabindex="1" v-bind:placeholder="auth.label.username_placeholder" v-model="user.username" @keyup.enter="next()">
                             </div>
 
                             <div class="row">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" v-model="user.remember"> Lembrar - me
+                                        <input type="checkbox" v-model="user.remember"> ${auth.label.remember}
                                     </label>
                                 </div>
                             </div>
 
                             <div class="row text-right">
                                 <button type="button" class="btn btn-primary" @click="next()">
-                                    Próximo
+                                    ${auth.label.next}
                                     <i class="fa fa-angle-double-right"></i>
                                 </button>
                             </div>
@@ -53,7 +53,7 @@
                         <div id="step2" class="container" v-show="auth.step == 2">
                             <div class="row">
                                 <div class="col-12 text-left">
-                                    <h3>Bem vindo(a), </h3>
+                                    <h3>${auth.label.welcome}</h3>
 
                                     <div class="container login-user-data text-left">
                                         <img src="{{URL}}foto_teste.jpg" class="img-responseive login-user-picture">
@@ -62,22 +62,29 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="label-control">Senha</label>
-                                <input class="form-control" type="password" id="password" name="password" ref="password" tabindex="2" placeholder="Infome a sua senha" v-model="user.password" @keyup.enter="enter()">
+                                <label class="label-control">${auth.label.password}</label>
+                                <input class="form-control" type="password" id="password" name="password" ref="password" tabindex="2" v-bind:placeholder="auth.label.password_placeholder" v-model="user.password" @keyup.enter="enter()">
                             </div>
 
                             <div class="row">
+                                <label class="label-control">${auth.label.environment}</label>
+                                <select class="form-control form-control-select2" type="environment" id="environment" name="environment" ref="environment" tabindex="3" v-model="user.environment">
+                                    <option v-for="(env, index) in auth.label.environments" v-bind:value="env.id">${env.text}</option>
+                                </select>
+                            </div>                            
+
+                            <div class="row">
                                 <ul class="login-list">
-                                    <li><a href="#" @click="forget()">Esqueceu sua senha?</a></li>
-                                    <li><a href="#" @click="cancel()">Não é você?</a></li>
-                                    <li><a href="#" @click="list()">Lista de usuários lembrados</a></li>
+                                    <li><a href="#" @click="forget()">${auth.label.forgot_password}</a></li>
+                                    <li><a href="#" @click="cancel()">${auth.label.isnot_you}</a></li>
+                                    <li><a href="#" @click="list()">${auth.label.remember_users}</a></li>
                                 </ul>
                             </div>
 
                             <div class="row text-right">
                                 <button type="button" class="btn btn-primary" @click="enter()">
                                     <i class="fa fa-sign-in"></i>
-                                    Entrar
+                                    ${auth.label.signin}
                                 </button>
                             </div>
                         </div>
@@ -85,22 +92,15 @@
                         <div id="step3" class="container" v-show="auth.step == 3">
                             <div class="row">
                                 <div class="col-12 text-left">
-                                    <h3>Quem é você? </h3>
-                                    <h4>Existe mais de uma conta registrada neste navegador. Para entrar no sistema, selecione a sua conta:</h4>
+                                    <h3>${auth.label.whoareyou}</h3>
+                                    <h4>${auth.label.whoareyou_notification}</h4>
 
                                     <ul class="login-list login-user-list">
-                                        <li>
+                                         <li v-for="(usr, index) in users">
                                             <div class="container login-user-data text-left">
-                                                <img src="{{URL}}foto_teste.jpg" class="img-responseive login-user-picture">
-                                                <label>LUIZ FABIO SCHMITT VIEIRA</label>
-                                                <i class="fa fa-close login-user-remove"></i>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="container login-user-data text-left">
-                                                <i class="fa fa-user login-user-no-picture"></i>
-                                                <label>BRUNO ALEXANDRE SCHMITT VIEIRA</label>
+                                                <img v-if="usr.picture" src="{{URL}}foto_teste.jpg" class="img-responseive login-user-picture">
+                                                <i v-else class="fa fa-user login-user-no-picture"></i>
+                                                <label v-html="usr.username"></label>
                                                 <i class="fa fa-close login-user-remove"></i>
                                             </div>
                                         </li>
@@ -111,14 +111,14 @@
 
                             <div class="row">
                                 <ul class="login-list">
-                                    <li><a href="#" @click="nolist()">Não estou na lista</a></li>
+                                    <li><a href="#" @click="nolist()">${auth.label.nolist}</a></li>
                                 </ul>
                             </div>
 
                             <div class="row text-right">
                                 <button type="button" class="btn btn-default" @click="cancel()">
                                     <i class="fa fa-close"></i>
-                                    Cancelar
+                                    ${auth.label.cancel}
                                 </button>
                             </div>
                         </div>
@@ -126,8 +126,8 @@
                         <div id="step4" class="container" v-show="auth.step == 4">
                             <div class="row">
                                 <div class="col-12 text-left">
-                                    <h3>Recuperar Senha</h3>
-                                    <h4>Para redefinir a senha de sua conta é necessário confirmar o e-mail abaixo:</h4>
+                                    <h3>${auth.label.recover_password}</h3>
+                                    <h4>${auth.label.recover_password_notification}</h4>
 
                                     <div class="container login-user-data text-left">
                                         <img src="{{URL}}foto_teste.jpg" class="img-responseive login-user-picture">
@@ -140,14 +140,14 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="label-control">Confirmar E-mail</label>
+                                <label class="label-control">${auth.label.confirm_email}</label>
                                 <input class="form-control" type="email" id="email" name="email" ref="email" placeholder="Confirme o seu e-mail pmm" v-model="user.email" @click="send()">
                             </div>
 
                             <div class="row">
                                 <ul class="login-list">
-                                    <li><a href="#" @click="cancel()">Não é você?</a></li>
-                                    <li><a href="#" @click="list()">Lista de usuários lembrados</a></li>
+                                    <li><a href="#" @click="cancel()">${auth.label.isnot_you}</a></li>
+                                    <li><a href="#" @click="list()">${auth.label.remember_users}</a></li>
                                 </ul>
                             </div>
 
@@ -155,14 +155,14 @@
                                 <div class="left">
                                     <button type="button" class="btn btn-default" @click="cancel(2)">
                                         <i class="fa fa-close"></i>
-                                        Cancelar
+                                        ${auth.label.cancel}
                                     </button>
                                 </div>
 
                                 <div class="right">
                                     <button type="button" class="btn btn-primary" @click="send()">
                                         <i class="fa fa-send"></i>
-                                        Enviar
+                                        ${auth.label.send}
                                     </button>
                                 </div>
                             </div>
