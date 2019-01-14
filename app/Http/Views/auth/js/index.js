@@ -90,6 +90,7 @@ const login = Vue.component('login', {
                 name: '',
                 email: '',
                 email_joker:'',
+                email_confirm:'',
                 cpf: '',
                 login:'',
                 picture:'',
@@ -143,11 +144,17 @@ const login = Vue.component('login', {
         },
 
         forget() {
+            if (!this.user.email.length) {
+                this.alertbox("<strong>Oops! Ocorreu um Erro:</strong> Você não possui um e-mail vinculado a sua conta, por favor, entre em contato com o seu suporte parar efetuar o cadastro.", "danger")
+                return false;
+            }
+
             this.auth.step = 4
             this.focus('email')
         },
 
         cancel(step = 1) {
+            this.auth.alertbox.message = null
             this.auth.step = step
 
             if (step == 1) {
@@ -172,14 +179,15 @@ const login = Vue.component('login', {
             this.auth.step = 1
             this.auth.alertbox.message = null
             this.auth.alertbox.type = 'info'
-            this.user.name = null
-            this.user.email = null
-            this.user.email_joker = null
-            this.user.cpf   = null
-            this.user.login = null
-            this.user.picture = null
-            this.user.username = null
-            this.user.password = null
+            this.user.name = ''
+            this.user.email = ''
+            this.user.email_joker = ''
+            this.user.email_confirm = ''
+            this.user.cpf   = ''
+            this.user.login = ''
+            this.user.picture = ''
+            this.user.username = ''
+            this.user.password = ''
             this.user.environment = 'dev'
             this.user.remember = false
             this.users = []
@@ -198,11 +206,14 @@ const login = Vue.component('login', {
             this.user = {
                 name: '',
                 email: '',
+                email_joker:'',
+                email_confirm:'',
                 cpf: '',
                 login:'',
                 picture:'',
                 username:'',
                 password:'',
+                environment:'dev',
                 remember:false
             }
         },
@@ -272,6 +283,7 @@ const login = Vue.component('login', {
         },
 
         getVueObject(object) {
+            // converte vue objeto para um objeto comum
             return JSON.parse(JSON.stringify(object))
         }
 
@@ -279,6 +291,10 @@ const login = Vue.component('login', {
     },
 
     computed: {
+
+    },
+
+    watch: {
 
     },
 

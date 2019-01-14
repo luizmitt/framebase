@@ -105,7 +105,7 @@ a:hover {
     width:100%;
     overflow:hiddem;
 }
-input {
+input:not(.select2-search__field) {
     padding-top:25px !important;
     padding-bottom:25px !important;
     font-size:14px !important;
