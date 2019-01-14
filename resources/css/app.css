@@ -1,0 +1,17 @@
+a {
+    font-weight:bold;
+    color:#56729C;
+}
+a:hover {
+    text-decoration:none;
+    color:#33445D;
+}
+
+.btn-primary {
+    background-color:#56729C;
+}
+
+.login-logo {
+    padding-top:5px;
+    padding-bottom:3px;
+  }

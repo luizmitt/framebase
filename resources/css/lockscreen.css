@@ -1,0 +1,148 @@
+
+.lockscreen-container {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding-bottom: 30px;
+    background-color:#fff;
+}
+.lockscreen-logo {
+    width:150px; 
+    padding-top:10px;
+}
+.lockscreen-user-picture {
+    width:80px;
+    height:80px;
+    border-radius:10px;
+    float:left;
+}
+.lockscreen-user-no-picture {
+    font-size:80px;
+    width:80px;
+    height:80px;
+    text-align:center;
+    color:#666;
+    border-radius:10px;
+    float:left;
+}
+.lockscreen-user-data label {
+  line-height:2;
+  float:left;
+  margin-top:30px;
+  margin-left:5px;
+  font-size:14px;
+  cursor:pointer;
+}
+.lockscreen-list {
+    margin:0;
+    padding:0;
+    list-style:none;
+    margin-top:5px;
+    margin-bottom:5px;
+}
+.lockscreen-user-list li {
+    border:1px solid #ddd;
+    margin-bottom:1px;
+    position:relative;
+    padding:5px;
+    color:#888;
+    background-color:#eee;
+    opacity: 0.6;
+    z-index:998;
+}
+.lockscreen-user-list li:first-child {
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+}
+.lockscreen-user-list li:last-child {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+.lockscreen-user-list li:hover {
+    cursor:pointer;
+    background-color:#ffff;
+    color:#000;
+    opacity: 1;
+}
+.lockscreen-user-remove {
+    position:absolute;
+    right:10px;
+    font-size:20px;
+    color:#000;
+    opacity:1 !important;
+    z-index:999;
+}
+.lockscreen-logo-pmm {
+    position: absolute;
+    bottom:0;
+    right:0;
+    opacity:0.4;
+    width:600px;
+    padding:30px;
+    z-index:-1;
+}
+.lockscreen-user-email {
+    font-size:20px;
+    padding:20px;
+    color:#333;
+}
+.lockscreen-select-user {
+    display:inline-block;
+    width:100%;
+    overflow:hiddem;
+}
+.lockscreen input:not(.select2-search__field) {
+    padding-top:25px !important;
+    padding-bottom:25px !important;
+    font-size:14px !important;
+    font-weight:bold;
+}
+.lockscreen button {
+    padding:16px !important;
+    font-size:14px !important;;
+    font-weight:bold !important;;
+}
+
+/* Extra small devices (phones, less than 768px) / / No media query since this is the default in Bootstrap */
+
+/* Small devices (tablets, 768px and up) */
+@media (max-width:992px) {
+    .lockscreen-container {
+        border:none;
+    }
+
+    .lockscreen-logo-pmm {
+        position: absolute;
+        opacity:0.1;
+        margin-left:-225px;
+        z-index:-9999;
+        width:500px;
+        height:100%;
+    }
+    body {
+        background-color:#fff;
+    }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .lockscreen-container {
+        margin-top:100px;
+        min-width:500px !important;
+        max-width:600px !important;
+    }   
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+
+}
+
+
+
+  .lockscreen {
+    position:absolute;
+    width:100%;
+    height:100%;
+    background-color:#2C3E50;
+    z-index:99999999;
+}

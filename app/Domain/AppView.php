@@ -5,20 +5,17 @@
 
 namespace App\Domain;
 
-use \Routing\Router;
-use \Kernel\View;
-use \App\Helpers\Session;
+use Kernel\View;
+use Thupan\Pmm\PmmView;
 
-use \App\Helpers\XHR;
-use \Thupan\Pmm\PmmView;
-
-class AppView extends PmmView {
-
-    public static function setConfig() {
+class AppView extends PmmView
+{
+    public static function setConfig()
+    {
         // adicionar funçoẽs personalizadas para view a partir desta linha
         //
         //self::$functions[] = new \Twig_SimpleFunction('nomedafuncao', function($args) {
-           // codigo da funcao
+        // codigo da funcao
         //});
 
         // não remover esta linha
@@ -26,14 +23,14 @@ class AppView extends PmmView {
     }
 
     // Override
-    public static function render($template, $data = []) {
-
+    public static function render($template, $data = [])
+    {
         self::setConfig();
 
         $data = (self::$data) ? array_merge(self::$data, $data) : $data;
 
         $template = str_replace('.', '/', $template);
 
-        echo self::getInstance()->render($template . EXT_TWIG, $data);
+        echo self::getInstance()->render($template.EXT_TWIG, $data);
     }
 }

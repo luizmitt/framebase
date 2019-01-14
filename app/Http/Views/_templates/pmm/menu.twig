@@ -57,18 +57,6 @@
                 <li>
                     <a class="dropdown-header">Ferramentas</a>
                 </li>
-                {% if session.s_environment == "dev" %}
-                    <li>
-                        <a href="{{URL}}docs/">
-                            <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
-                            Documentação</a>
-                    </li>
-                    <li>
-                        <a href="{{URL}}pmm-generator">
-                            <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
-                            Gerador de Código</a>
-                    </li>
-                {% endif %}
 
                 <li>
                     <a href='#' onclick="javascript:carregaLogGit();" data-toggle="modal" data-target="#gitLog">
@@ -76,17 +64,17 @@
                         Histórico de Atualizações</a>
                 </li>
 
-                {% if session.s_environment == "pro" %}
-                    <li>
-                        <a class="dropdown-header">Meus Sistemas</a>
-                        {#getUserSys() |raw#}
-                    </li>
-                {% endif %}
-                <li class="dropdown-header">Sair do Sistema</li>
+                <li class="dropdown-header">Sistema</li>
+                <li>
+                    <a href="#" @click="lockscreen = true">
+                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                        Bloquear tela do sistema
+                    </a>
+                </li>                
                 <li>
                     <a href="{{URL}}autenticacao/logout">
                         <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                        Sair</a>
+                        Sair do sistema</a>
                 </li>
                 <li>
                     <a href="#" style="font-size:small">

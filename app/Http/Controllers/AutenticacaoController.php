@@ -2,96 +2,91 @@
 
 namespace App\Http\Controllers;
 
-use \Database\Database;
+use App\Domain\AppController as Controller;
+use App\Domain\AppView as View;
+use App\Http\Models\Autenticacao;
+use Service\Request;
+use Service\Redirect;
+use App\Helpers\Session;
 
-use \App\Domain\AppController as Controller;
-use \App\Domain\AppView as View;
-use \App\Domain\AppModel as Mode;
-
-use \App\Exception\Exception as Exception;
-
-use \App\Http\Models\Autenticacao;
-
-use \App\Helpers\Request;
-use \App\Helpers\Redirect;
-use \App\Helpers\Session;
-
-class AutenticacaoController extends Controller {
-
+class AutenticacaoController extends Controller
+{
     public $auth = false;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    public function validarSenha() {
-            View::flash("Sua senha foi alterada com sucesso.", 'success');
-            Redirect::to("autenticacao");
+    public function validarSenha()
+    {
+        View::flash('Sua senha foi alterada com sucesso.', 'success');
+        Redirect::to('autenticacao');
     }
 
-    public function alterarSenha() {
+    public function alterarSenha()
+    {
         Request::post($data, false);
 
         extract($data);
 
         // exp reg oara no minimo 6 caracteres
-        $min6c   = "/^[a-zA-Z0-9]{6,}$/";
+        $min6c = '/^[a-zA-Z0-9]{6,}$/';
         // exp reg para no minimo 1 letra minuscula
-        $min1lmi = "/(?=[a-z]{1,})[a-zA-Z0-9]+/";
+        $min1lmi = '/(?=[a-z]{1,})[a-zA-Z0-9]+/';
         // exp reg para no minimo 1 letra maiuscula
-        $min1lma = "/(?=[A-Z]{1,})[a-zA-Z0-9]+/";
+        $min1lma = '/(?=[A-Z]{1,})[a-zA-Z0-9]+/';
         // exp reg para no minimo 1 numero
-        $min1nu  = "/(?=[0-9]{1,})[a-zA-Z0-9]+/";
+        $min1nu = '/(?=[0-9]{1,})[a-zA-Z0-9]+/';
 
-
-        if(!preg_match($min6c, $password_new)) {
-            $error[] = "minínimo 6 caracteres.";
+        if (!preg_match($min6c, $password_new)) {
+            $error[] = 'minínimo 6 caracteres.';
         }
 
-        if(!preg_match($min1lmi, $password_new)) {
-            $error[] = "minínimo 1 letra minuscula.";
+        if (!preg_match($min1lmi, $password_new)) {
+            $error[] = 'minínimo 1 letra minuscula.';
         }
 
-        if(!preg_match($min1lma, $password_new)) {
-            $error[] = "minínimo 1 letra maiuscula.";
+        if (!preg_match($min1lma, $password_new)) {
+            $error[] = 'minínimo 1 letra maiuscula.';
         }
 
-        if(!preg_match($min1nu, $password_new)) {
-            $error[] = "minínimo 1 número.";
+        if (!preg_match($min1nu, $password_new)) {
+            $error[] = 'minínimo 1 número.';
         }
 
-
-        if($error) {
-            echo json_encode(['erro' => implode("<br />", $error)]);
+        if ($error) {
+            echo json_encode(['erro' => implode('<br />', $error)]);
             exit;
         }
 
-        if(!Autenticacao::ociChangePassword($username, $password_current, $password_new)) {
+        if (!Autenticacao::ociChangePassword($username, $password_current, $password_new)) {
             echo json_encode(['erro' => 'não foi possível alterar a senha.']);
         } else {
             echo json_encode(['success' => 'senha alterada com sucesso!']);
         }
-
     }
 
-    public function index() {
+    public function index()
+    {
         View::assign('environment', [
-                                ''     => 'Escolha...',
-                                'dev'  => 'Desenvolvimento',
-                                'hom'  => 'Homologação',
-                                'pro'  => 'Produção',
+                                '' => 'Escolha...',
+                                'dev' => 'Desenvolvimento',
+                                'hom' => 'Homologação',
+                                'pro' => 'Produção',
         ]);
 
-        View::render("autenticacao/index");
+        View::render('autenticacao/index');
     }
 
-    public function run() {
+    public function run()
+    {
         Request::post($data, false);
 
         Session::set('s_username', $data['username']);
         Session::set('s_password', base64_encode($data['password']));
 
-        if(!$data['environment']) {
+        if (!$data['environment']) {
             $data['environment'] = $this->config['database']['DB_DEFAULT_ENV'];
         }
 
@@ -100,10 +95,10 @@ class AutenticacaoController extends Controller {
         $database = new \Database\Database();
         $database = $database->getInstance();
 
-        if($error = $database->getError()) {
+        if ($error = $database->getError()) {
             preg_match('/ORA-([0-9]*)/', $error[0], $code);
 
-            switch($code[1]) {
+            switch ($code[1]) {
                 case '01017':
                     $error = 'Usuário ou senha inválidos.';
                 break;
@@ -139,27 +134,28 @@ class AutenticacaoController extends Controller {
             View::flash($error, 'danger');
             Redirect::to('autenticacao');
         } else {
-            if($this->config['database']['DB_AUTH']) {
-                Session::set('s_loggedIn', Session::get('s_token') . md5($data['username'].$data['password']));
-                foreach(Autenticacao::getUserInfo($data['username']) as $index => $array) {
-                    foreach($array as $key => $value) {
+            if ($this->config['database']['DB_AUTH']) {
+                Session::set('s_loggedIn', Session::get('s_token').md5($data['username'].$data['password']));
+                foreach (Autenticacao::getUserInfo($data['username']) as $index => $array) {
+                    foreach ($array as $key => $value) {
                         Session::set($key, $value);
                     }
                 }
             } else {
-                if(Autenticacao::login($data)) {
-                    Session::set('s_loggedIn', Session::get('s_token') . md5($data['username'].$data['password']));
+                if (Autenticacao::login($data)) {
+                    Session::set('s_loggedIn', Session::get('s_token').md5($data['username'].$data['password']));
                     Session::set('TX_LOGIN', $data['username']);
                 } else {
                     View::flash('Usuário ou Senha inválidos', 'danger');
                 }
             }
 
-            Redirect::to( (Session::get('lastpage')) ? Session::get('lastpage') : '/');
+            Redirect::to((Session::get('lastpage')) ? Session::get('lastpage') : '/');
         }
     }
 
-    public static function logout() {
-        \App\Helpers\Auth::logout();
+    public static function logout()
+    {
+        \Service\Auth::logout();
     }
 }

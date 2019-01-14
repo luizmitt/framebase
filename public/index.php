@@ -1,6 +1,6 @@
 <?php 
 // não deixa os headers serem enviados ate que ocorra um clean.
-ob_start();
+//ob_start();
 
 header("X-Frame-Options: Deny");
 header("X-Frame-Options: SameOrigin");
@@ -51,4 +51,4 @@ define('GENERATOR_DEFAULT_DB_DRIVER', 'oci');
 \Routing\Router::dispatch();
 
 // libera o buffer
-ob_end_flush();
+//ob_end_flush();

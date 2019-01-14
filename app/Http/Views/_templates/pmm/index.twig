@@ -14,20 +14,21 @@
 
 <body>
     <div id="container">
+        <lockscreen :prop-activated="lockscreen"></lockscreen>
         <div id="header" class="navbar navbar-default navbar-static-top">
             <div class="container">
                 <div class="navbar-header-fluid">
                     <a href="{{URL}}">
-                        <img class="logo left logo-left hidden-sm hidden-xs" src="{{URL}}images/{{theme}}/logo-dsti.svg">
-                        <img class="logo left logo-left visible-sm visible-xs" src="{{URL}}images/{{theme}}/logo-dsti.svg"
-                            style="width:140px">
+                        <div class="row">
+                            <div class="col-xs-6 col-md-6">
+                                <img class="img-responsive left login-logo" src="{{URL}}images/pmm/logo-sistemaspmm.svg">
+                            </div>
+
+                            <div class="col-xs-6 col-md-6">
+                                <img class="img-responsive right login-logo" src="{{URL}}images/pmm/{{app_name | lower}}-logoname.png">
+                            </div>
+                        </div>
                     </a>
-                    {% set logo_sistema = 'images/' ~ theme ~ image ~ '/logo-' ~ app_name | lower ~ '.svg' %}
-                    {% if (app_name) %}
-                    <img class="logo right logo-right  hidden-sm hidden-xs" src="{{URL}}images/pmm/contratos_dsti_logo.svg">
-                    <img class="logo right logo-right  visible-sm visible-xs" src="{{URL}}images/pmm/contratos_dsti_logo.svg"
-                        style="width:140px">
-                    {% endif %}
                 </div>
             </div>
         </div>
@@ -78,7 +79,7 @@
 
                     <div class="col-md-3 text-right hidden-sm hidden-xs">
                         <a class="right" href="http://sistemaspmm.manaus.am.gov.br/" target="_blank">
-                            <img src="{{URL}}images/{{theme}}/logo.svg" style="width:300px;height:100px" />
+                            <img src="{{URL}}images/pmm/logo-semad-prefeiturademanaus.svg" style="height:100px" />
                         </a>
                     </div>
                 </div>
@@ -95,6 +96,7 @@
     </script>
     {# PLUGINS ESSENCIAIS PARA O FUNCIONAMENTO DA APPLIAÇÃO (Utilizar bower/gulp) #}
     <script type="text/javascript" src="{{URL}}assets/dist/plugins.js"></script>
+    <script type="text/javascript" src="{{URL}}assets/dist/app.js"></script>
 
     {# AUTOLOAD DOS SCRIPTS DOS TEMPLATES #}
     {{load_js()}}
@@ -104,7 +106,13 @@
 
         const app = new Vue({
             el: '#container',
-            delimiters: ["[%", "%]"]
+            delimiters: ["${", "}"],
+            components: {
+                'lockscreen':lockscreen
+            },
+            data: {
+                lockscreen: false
+            }
         });
     </script>
     {# SCRIPTS ADICIONAIS PELO TEMPLATE #}

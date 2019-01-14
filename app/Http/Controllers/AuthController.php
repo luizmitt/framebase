@@ -2,19 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use \Database\Database;
-use \App\Domain\AppController as Controller;
-use \App\Domain\AppView as View;
-use \App\Domain\AppModel as Mode;
-use \App\Exception\Exception as Exception;
-//use \App\Http\Models\Auth;
-use \App\Helpers\Request;
+use App\Domain\AppController as Controller;
+use App\Domain\AppView as View;
+use App\Http\Models\Auth;
+use Service\Request;
 
-class AuthController extends Controller {
-
+class AuthController extends Controller
+{
     public $auth = false;
 
-    public function index() {
-        View::render("auth.index");
+    public function index()
+    {
+        View::render('auth.index');
+    }
+
+    public function getUserData()
+    {
+        Request::post($data, false);
+        header('Content-Type: application/json');
+        echo Auth::getUserByAccount($data['account']);
+    }
+
+    public function getUserAccess()
+    {
+        Request::post($data, false);
+        header('Content-Type: application/json');
+        echo Auth::getUserAccess($data);
     }
 }

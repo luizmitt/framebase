@@ -4,6 +4,7 @@ var del    = require('del'); // rm -rf
 
 var jsFiles = [
     'node_modules/vue/dist/vue.js',
+    'node_modules/axios/dist/axios.min.js',
     'node_modules/jquery/dist/jquery.js',
     'node_modules/nprogress/nprogress.js',
     'resources/js/jquery-ui-1.11.4/jquery-ui.js',
@@ -22,9 +23,12 @@ var jsFiles = [
     'node_modules/chartjs/chart.js',
     'node_modules/jquery.redirect/jquery.redirect.js',
     'node_modules/toastr/build/toastr.min.js',
+    'vendor/thupan/pmm/resources/js/config.js'
+]
+
+var jsApp = [
     'resources/js/app.js',
-    'vendor/thupan/pmm/resources/js/config.js',
-   // 'vendor/thupan/pmm/resources/js/app.js'
+    'vendor/thupan/pmm/resources/js/app.js'
 ]
 
 // personally written CSS
@@ -43,6 +47,7 @@ var cssFiles = [
     'node_modules/nprogress/nprogress.css',
     'node_modules/font-awesome/css/font-awesome.css',
     'resources/css/app.css',
+    'resources/css/lockscreen.css',
     'vendor/thupan/pmm/resources/css/app.css',
     'vendor/thupan/pmm/resources/css/themes/pmm.css'
 ]
@@ -91,6 +96,15 @@ gulp.task('js-minify', function(){
 
 })
 
+gulp.task('js-app-minify', function(){
+    var stream = gulp.src(jsApp)
+               .pipe(concat('app.js'))
+               //.pipe(uglify())
+               .pipe(gulp.dest('public/assets/dist'));               
+    return stream;
+
+})
+
 gulp.task('css-minify', function () {
     var stream = gulp.src(cssFiles)
         .pipe(concat('plugins.css'))
@@ -123,6 +137,7 @@ gulp.task('copy-images-rsrc', function() {
 gulp.task('serve', gulp.series('clean',
     gulp.parallel(
         'js-minify',
+        'js-app-minify',
         'css-minify',
         'copy-fonts',
         'copy-files',

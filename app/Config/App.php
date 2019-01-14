@@ -9,7 +9,7 @@ return [
     | Esse valor determina dados da app.
     |
     */
-    'APP_NAME' => 'NOME_SISTEMA', // necessario ser o mesmo nome que esta na tabela de SISTEMA
+    'APP_NAME' => 'CONTRATOS', // necessario ser o mesmo nome que esta na tabela de SISTEMA
     'APP_VERSION' => '1.0.0',
     'APP_TITLE' => 'Sistemas PMM',
 
