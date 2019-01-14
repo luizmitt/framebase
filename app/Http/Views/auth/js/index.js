@@ -1,3 +1,18 @@
+/**
+ * Autenticador PMM escrito em VueJS 2
+ * 
+ * Autenticador dividido em passos, similar ao do gmail, para melhorar a segurança de acesso ao sistemas pmm de todos os sistemas.
+ * author: Luiz Schmitt <lzschmitt@gmail.com>
+ */
+
+
+ /**
+  * Compoente <alertbox />
+  * 
+  * Mostra o alerta do bootstrap quando requisitado
+  * 
+  * props: alertConfig Object - É preciso passar o objeto das configurações do componentes de login, o obj 'auth'
+  */
 const alertbox = Vue.component('alertbox', {
     name: 'alertbox',
     props: {
@@ -26,6 +41,12 @@ const alertbox = Vue.component('alertbox', {
     }    
 })
 
+/**
+ * Componente <login />
+ * 
+ * É o componente onde determinara se o usuário terá acesso ou não a um sistema.
+ * 
+ */
 const login = Vue.component('login', {
     name:'login',
     data() {
@@ -68,11 +89,13 @@ const login = Vue.component('login', {
             user: {
                 name: '',
                 email: '',
+                email_joker:'',
                 cpf: '',
                 login:'',
                 picture:'',
                 username:'',
                 password:'',
+                environment:'dev',
                 remember:false
             },
 
@@ -85,6 +108,7 @@ const login = Vue.component('login', {
             if (this.user.username.length) {
                 
                 // axios - pegar dados do usuario e atualiza o this.user
+                this.user.name = this.user.username
                 
                 if (this.user.remember) {
                     this.addUser(this.user)
@@ -150,11 +174,13 @@ const login = Vue.component('login', {
             this.auth.alertbox.type = 'info'
             this.user.name = null
             this.user.email = null
+            this.user.email_joker = null
             this.user.cpf   = null
             this.user.login = null
             this.user.picture = null
             this.user.username = null
             this.user.password = null
+            this.user.environment = 'dev'
             this.user.remember = false
             this.users = []
 
@@ -179,6 +205,13 @@ const login = Vue.component('login', {
                 password:'',
                 remember:false
             }
+        },
+
+        selectUser(user) {
+            user = this.getVueObject(user)
+            this.user = user
+            this.auth.step = 2
+            this.focus('password')
         },
 
         removeUser(user) {
@@ -231,8 +264,8 @@ const login = Vue.component('login', {
 
         getUsers() {
             // retorna todos os usuarios do localstorage
-            if (localStorage.getItem('auth_users') == null || localStorage.getItem('auth_users') == undefined) {
-                return null;
+            if (!window.localStorage && localStorage.getItem('auth_users') == null || localStorage.getItem('auth_users') == undefined) {
+                return false;
             }
 
             return JSON.parse(localStorage.getItem('auth_users'));
@@ -250,15 +283,33 @@ const login = Vue.component('login', {
     },
 
     mounted() {
-        this.focus('username')
-
-        if (this.getUsers() != null) {
+        // se houver dados no localStorage
+        if (this.getUsers()) {
+            // atualiza os dados reativamente
             this.users = this.getUsers()
-        }
 
-        if(!window.localStorage) {
-            // se o navegador não suportar localStorage desabilita o 'lembrar - me'
-            $("#remember").attr("disabled", "true")
+            // se tiver mais de um usuario
+            if (this.users.length > 1) {
+                // abre a pagina de selecao de usuario 'Quem é você?'
+                this.auth.step = 3
+                // se for apenas um usuário
+            } else if (this.users.length == 1) {
+                // abre a pagina de senha
+                this.auth.step = 2
+                // atualiza este usuario reativamente
+                this.user = this.users[0]
+                // mostra a senha
+                this.focus('password')
+            }
+        } else {
+            // se não houver nenhum dados no localStorage
+            // abre na pagina padrao, step=1, e foca no campo de conta
+            this.focus('username')
+            
+            // se o navegador não suportar localStorage, desabilita o 'lembrar-me'
+            if(!window.localStorage) {
+                this.$refs.remember.disabled=true
+            }
         }
 
         $(".form-control-select2").select2();
