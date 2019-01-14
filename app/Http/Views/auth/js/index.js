@@ -7,7 +7,7 @@
 
 
  /**
-  * Compoente <alertbox />
+  * Componente <alertbox />
   * 
   * Mostra o alerta do bootstrap quando requisitado
   * 
@@ -110,6 +110,8 @@ const login = Vue.component('login', {
                 
                 // axios - pegar dados do usuario e atualiza o this.user
                 this.user.name = this.user.username
+                this.user.email = 'user@pmm.am.gov.br'
+                this.user.email_joker = 'us**@pmm.am.gov.br'
                 
                 if (this.user.remember) {
                     this.addUser(this.user)
@@ -129,12 +131,24 @@ const login = Vue.component('login', {
         },
 
         send() {
-            // axios - envia um e-mail com o link de recuperacao do this.user. *Necessário acertar o e-mail coringa
+            if (this.user.email === this.user.email_confirm) {
+                // axios - envia um e-mail com o link de recuperacao do this.user. *Necessário acertar o e-mail coringa
+                this.auth.alertbox.message=null
+                this.alertbox("<strong>Sucesso!</strong> Você receberá em alguns instantes um e-mail com um link de acesso para resetar a sua senha.", "success")
+            }
+            else if (!this.user.email_confirm.length) {
+                this.alertbox("<strong>Atenção!</strong> É necessário confirmar o e-mail vinculado a sua conta", "warning")
+                this.focus("email_confirm")
+                return false;
+            }
+            else {
+                this.alertbox("<strong>Oops! Ocorreu um Erro:</strong> O e-mail informado está diferente do cadastrado. verifique se foi digitado corretamente ou entre em contato com seu suporte.", "danger")
+                return false;
+            }
         },
         
         list() {
             this.auth.step = 3
-        
         },
 
         nolist() {
@@ -150,7 +164,7 @@ const login = Vue.component('login', {
             }
 
             this.auth.step = 4
-            this.focus('email')
+            this.focus('email_confirm')
         },
 
         cancel(step = 1) {

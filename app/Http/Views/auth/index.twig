@@ -141,7 +141,8 @@
                                     <h4>${auth.label.recover_password_notification}</h4>
 
                                     <div class="container login-user-data text-left">
-                                        <img src="{{URL}}foto_teste.jpg" class="img-responseive login-user-picture">
+                                        <img v-if="user.picture" src="{{URL}}foto_teste.jpg" class="img-responseive login-user-picture">
+                                        <i v-else class="fa fa-user login-user-no-picture"></i>
                                         <label>${user.name}</label>
                                     </div>
 
@@ -150,9 +151,12 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            <alertbox class="row" v-bind:alert-config="auth" style="margin-top:20px"></alertbox>
+
                             <div class="row">
                                 <label class="label-control">${auth.label.confirm_email}</label>
-                                <input class="form-control" type="email" id="email" name="email" ref="email" placeholder="Confirme o seu e-mail pmm" v-model="user.email" @click="send()">
+                                <input class="form-control" type="email_confirm" id="email_confirm" name="email_confirm" ref="email_confirm" placeholder="Confirme o seu e-mail pmm" v-model="user.email_confirm" @keyup.enter="send()">
                             </div>
 
                             <div class="row">
