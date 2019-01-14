@@ -268,6 +268,11 @@ const login = Vue.component('login', {
             localStorage.removeItem('auth_users');
             if (users.length) { 
                 localStorage.setItem('auth_users', JSON.stringify(users));
+            } else {
+                if (this.auth.step == 3) {
+                    this.auth.step = 1
+                    this.auth.alertbox.message=null
+                }
             }
             this.users = users;
         },
