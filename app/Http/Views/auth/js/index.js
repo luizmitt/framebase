@@ -5,6 +5,22 @@
  * author: Luiz Schmitt <lzschmitt@gmail.com>
  */
 
+String.prototype.email_joker = function() {
+	var email = this.split('@');
+    var username = email[0];
+    var domain   = email[1];
+	var joker    = [];
+
+    for (i = 0; i<=username.length-1; i++) {
+		if (i <= 4) {
+			joker.push(username[i]);
+		} else {
+			joker.push('*');
+		}
+	}
+
+	return joker.join('') + '@' + domain;
+}
 
  /**
   * Componente <alertbox />
@@ -110,8 +126,8 @@ const login = Vue.component('login', {
                 
                 // axios - pegar dados do usuario e atualiza o this.user
                 this.user.name = this.user.username
-                this.user.email = 'user@pmm.am.gov.br'
-                this.user.email_joker = 'us**@pmm.am.gov.br'
+                this.user.email = 'luiz.schmitt@pmm.am.gov.br'
+                this.user.email_joker = this.user.email.email_joker()
                 
                 if (this.user.remember) {
                     this.addUser(this.user)
