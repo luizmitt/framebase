@@ -10,7 +10,7 @@ return [
             'name'      => 'Sistemas PMM',
             'email'     => 'admin.sistemaspmm@pmm.am.gov.br',
             'username'  => 'admin.sistemaspmm@pmm.am.gov.br',
-            'password'  => 'Admin2013',
+            'password'  => 'Admin@2018',
         ],
 
         'imap' => [

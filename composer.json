@@ -8,14 +8,16 @@
         "homepage": "http://github.com/thupan",
         "role": "Developer"
     }],
-
+    "config":{
+        "cache-files-ttl": 0
+    },
     "repositories": [{
         "type": "package",
         "package": {
             "name": "thupan/pmm",
             "version": "1.0.0",
             "source": {
-                "url": "https://gitlab.com/thupan/pmm.git",
+                "url": "https://gitlab.com/sistemaspmm/thupan/pmm.git",
                 "type": "git",
                 "reference": "master"
             }
@@ -35,12 +37,6 @@
     },
     "scripts": {
         "post-install-cmd": [],
-        "thupan-install": "sh ${PWD}/resources/scripts/config_install.sh",
-        "post-update-cmd": [],
-        "thupan-update": "sh ${PWD}/resources/scripts/config_update.sh",
-        "thupan-start": "php -elswS 0.0.0.0:8080 -t public public/index.php",
-        "thupan-test": "phpunit",
-        "thupan-autoload": "composer dump-autoload -o --profile -vvv",
-        "build": "sh ${PWD}/resources/scripts/build.sh"
+        "post-update-cmd": []
     }
 }

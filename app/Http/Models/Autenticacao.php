@@ -9,12 +9,16 @@ class Autenticacao extends Model {
     public $validate = false;
 
     public static function login($data) {
+        $env = \App\Helpers\Session::get('s_environment');
+        $config = autoload_config();
         extract($data);
 
-        $password = md5($password);
+        $host = $config['database']['connections'][$env][0]['host'] . ':' . $config['database']['connections'][$env][0]['port'] . '/' . $config['database']['connections'][$env][0]['database'];
+        
+        return @oci_connect($username, $password, $host);
+    }
 
-        $data = self::query("SELECT count(ID_USUARIO) as LOGADO FROM USUARIO_PBPG WHERE TX_LOGIN = '{$username}' AND TX_SENHA = '{$password}' ");
-
-        return $data[0]['LOGADO'] == 1 ? true : false;
+    public static function validaAcesso($ID_USUARIO) {
+        return self::query("SELECT * FROM GRUPO_USUARIO WHERE ID_USUARIO = $ID_USUARIO AND ID_GRUPO = 1");
     }
 }

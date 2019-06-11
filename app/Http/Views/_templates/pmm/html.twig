@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="{{page_lang}}">
+  <head>
+    <title>{{app_title}}</title>
+    <meta charset="{{page_charset}}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="{{URL}}images/{{theme}}/favicon.ico">
+    <link rel="stylesheet" href="{{URL}}assets/dist/plugins.css" type="text/css"/>
+    {# Carrega automatico todos os css referente ao programa em questão #}
+    {{load_css()}}
+    {# Carrega tags se existir um page_header #}
+    {% block page_header %}{% endblock %}
+  </head>
+
+  <body>
+    <div id="container">
+        {% block template %}{% endblock %}
+    </div>
+  {# AQUI CARREGA AS MODALS #}
+  {% block modals %}{% endblock %}
+  {% include '@view/_modals/modal.gitlog.twig' ignore missing %}
+  {% include '@view/_modals/modal.alterarSenha.twig' ignore missing %}
+
+  {# VARIAVEIS ESSENCIAIS PARA O FUNCIONAMENTO DA APPLICAÇÃO #}
+  <script type="text/javascript">
+    const url = "{{URL}}";
+    const controller = "{{controller}}";
+    const method = "{{method}}";
+    const theme = "{{theme}}"
+    const query = location.search;
+    const path = location.pathname;
+    const generator = false;
+  </script>
+  {# PLUGINS ESSENCIAIS PARA O FUNCIONAMENTO DA APPLIAÇÃO (Utilizar bower/gulp) #}
+  <script type="text/javascript" src="{{URL}}assets/dist/plugins.js"></script>
+  {# AUTOLOAD DOS SCRIPTS DOS TEMPLATES #}
+  {{load_js()}}
+  {# Carrega VueJS #}
+  <script type="text/javascript">
+    const store = new Vuex.Store({
+
+    });
+    
+    const app = new Vue({
+        el:'#container',
+        store
+    });
+  </script>
+  {# SCRIPTS ADICIONAIS PELO TEMPLATE #}
+  {% block page_scripts %}{% endblock %}    
+  </body>
+</html>

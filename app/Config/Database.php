@@ -35,7 +35,7 @@ return [
 	| Modo database: true.
 	|
 	*/
-	'DB_AUTH' => true,
+	'DB_AUTH' => false,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -79,10 +79,10 @@ return [
 			'autoload'    => true,
 			'connection'  => 'conn1',
 			'database'    => 'pmmdev',
-			'host'        => '172.17.131.45', //'172.18.1.160',
+			'host'        => 'curuduri',
 			'port'        => '1521',
-			'username'    => '',
-			'password'    => '',
+			'username'    => 'USR_ADMIN',
+			'password'    => '@2547eafbd4#',
 			],
 
 			[
@@ -124,10 +124,10 @@ return [
 			'autoload'    => true,
 			'connection'  => 'conn1',
 			'database'    => 'pmmhom',
-			'host'        => '172.17.131.45',
+			'host'        => 'curuduri',
 			'port'        => '1521',
-			'username'    => '',
-			'password'    => '',
+			'username'    => 'USR_ADMIN',
+			'password'    => '@2547eafbd4#',
 			],
 
 			[
@@ -155,8 +155,8 @@ return [
 			'database'    => 'pmm',
 			'host'        => 'pitua',
 			'port'        => '1521',
-			'username'    => '',
-			'password'    => '',
+			'username'    => 'USR_ADMIN',
+			'password'    => '@2547eafbd4#',
 			],
 
 			[

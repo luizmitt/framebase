@@ -1,161 +1,188 @@
-var gulp = require('gulp');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
-//var rename = require('gulp-rename');
-var del = require('del'); // rm -rf
-//var cleanCSS = require('gulp-clean-css');
-//var browser = require('browser-sync').create();
-//var historyApiFallback = require('connect-history-api-fallback');
+const gulp = require('gulp');
+const concat = require('gulp-concat');
+const minify = require('gulp-minify');
+const minifyCSS = require('gulp-csso');
+const sourcemaps = require('gulp-sourcemaps');
+const sass = require('gulp-sass');
+const cleanCSS = require('gulp-clean-css');
+const rename = require('gulp-rename');
+const del = require('del');
+const php = require('gulp-connect-php');
+const browserSync = require('browser-sync').create();
 
-// personally written JS
-var jsFiles = [
-    'bower_components/nprogress/nprogress.js',
-    'bower_components/jquery/dist/jquery.min.js',
-    //'node_modules/jquery/dist/jquery.js',
-    'bower_components/jquery-ui/jquery-ui.js',
-    'bower_components/bootstrap/dist/js/bootstrap.min.js',
-    'bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js',
-    'bower_components/twitter-bootstrap-wizard/jquery.bootstrap.wizard.js',
-    'bower_components/alertify/alertify.min.js',
-    'bower_components/select2/dist/js/select2.full.min.js',
-    'bower_components/toastr/toastr.min.js',
-    'bower_components/select2/dist/js/i18n/pt-BR.js',
-    'bower_components/jquery.inputmask/dist/inputmask/inputmask.js',
-    'bower_components/jquery.inputmask/dist/inputmask/jquery.inputmask.js',
-    'bower_components/jquery.inputmask/dist/inputmask/inputmask.extensions.js',
-    'bower_components/jquery.inputmask/dist/inputmask/inputmask.regex.extensions.js',
-    'bower_components/jquery.inputmask/dist/inputmask/inputmask.date.extensions.js',
-    'bower_components/jquery.inputmask/dist/inputmask/inputmask.numeric.extensions.js',
-    'bower_components/jquery.inputmask/dist/inputmask/inputmask.phone.extensions.js',
-    'bower_components/Chart.js/Chart.js',
-    'bower_components/jquery.redirect/jquery.redirect.js',
-    //'node_modules/simple-module/dist/simple-module.js',
-    //'node_modules/simple-hotkeys/lib/hotkeys.js',
-    //'node_modules/simditor/lib/simditor.js',
-    'node_modules/vue/dist/vue.min.js',
-    'vendor/thupan/pmm/resources/js/toastr.js',
-    'resources/js/app.js',
-    'vendor/thupan/pmm/resources/ext/debug/debugbar.js',
-    'vendor/thupan/pmm/resources/ext/debug/openhandler.js',
-    'vendor/thupan/pmm/resources/ext/debug/widgets.js',
-    'vendor/thupan/pmm/resources/ext/debug/widgets/mails/widget.js',
-    'vendor/thupan/pmm/resources/ext/debug/widgets/sqlqueries/widget.js',
-    'vendor/thupan/pmm/resources/ext/debug/widgets/templates/widget.js',
-    'vendor/thupan/pmm/resources/js/app.js',
-    'vendor/thupan/pmm/resources/js/generator.js'
-]
+const jsFiles = [
+  'node_modules/vue/dist/vue.min.js',
+  'node_modules/vuex/dist/vuex.js',
+  'node_modules/jquery/dist/jquery.min.js',
+  'node_modules/jquery-ui-dist/jquery-ui.js',
+  'node_modules/nprogress/nprogress.js',
+  'node_modules/bootstrap/dist/js/bootstrap.min.js',
+  'node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js',
+  'node_modules/twitter-bootstrap-wizard/jquery.bootstrap.wizard.js',
+  'node_modules/alertify/src/alertify.js',
+  'node_modules/select2/dist/js/select2.full.min.js',
+  'node_modules/toastr/build/toastr.min.js',
+  'node_modules/select2/dist/js/i18n/pt-BR.js',
+  'node_modules/inputmask/dist/jquery.inputmask.bundle.js',
+  'node_modules/chart.js/dist/Chart.min.js',
+  'node_modules/jquery.redirect/jquery.redirect.js',
+  'vendor/thupan/pmm/resources/js/app.js',
+  'vendor/thupan/pmm/resources/js/generator.js',
+  'resources/js/app.js',
+  'app/Http/Views/**/vue/*.vue.js'
+];
 
-// personally written CSS
-var cssFiles = [
-    'bower_components/open-sans-fontface/open-sans.css',
-    'bower_components/normalize-css/normalize.css',
-    'bower_components/bootstrap/dist/css/bootstrap.css',
-    'bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
-    'bower_components/alertify/themes/alertify.core.css',
-    'bower_components/alertify/themes/alertify.bootstrap.css',
-    'bower_components/jquery-ui/themes/base/jquery-ui.css',
-    'bower_components/jquery-ui-bootstrap/jquery.ui.theme.css',
-    'bower_components/jquery-ui-bootstrap/jquery.ui.theme.font-awesome.css',
-    'bower_components/select2/dist/css/select2.css',
-    'bower_components/toastr/toastr.min.css',
-    'bower_components/nprogress/nprogress.css',
-    'bower_components/font-awesome/css/font-awesome.css',
-    'node_modules/simditor/styles/simditor.css',
-    'vendor/thupan/pmm/resources/css/toastr.css',
-    'resources/css/app.css',
-    'vendor/thupan/pmm/resources/ext/debug/debugbar.css',
-    'vendor/thupan/pmm/resources/ext/debug/openhandler.css',
-    'vendor/thupan/pmm/resources/ext/debug/widgets.css',
-    'vendor/thupan/pmm/resources/ext/debug/widgets/mails/widget.css',
-    'vendor/thupan/pmm/resources/ext/debug/widgets/sqlqueries/widget.css',
-    'vendor/thupan/pmm/resources/ext/debug/widgets/templates/widget.css',
-    'vendor/thupan/pmm/resources/css/app.css',
-    'vendor/thupan/pmm/resources/css/themes/pmm.css'
-]
+const cssFiles = [
+  'node_modules/open-sans-fontface/open-sans.css',
+  'node_modules/normalize-css/normalize.css',
+  'node_modules/bootstrap/dist/css/bootstrap.css',
+  'node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+  'node_modules/alertify/themes/alertify.core.css',
+  'node_modules/alertify/themes/alertify.bootstrap.css',
+  'node_modules/jquery-ui-dist/jquery-ui.css',
+  'node_modules/jquery-ui-bootstrap/jquery.ui.theme.css',
+  'node_modules/select2/dist/css/select2.css',
+  'node_modules/nprogress/nprogress.css',
+  'node_modules/font-awesome/css/font-awesome.css',
+  'vendor/thupan/pmm/resources/css/app.css',
+  'vendor/thupan/pmm/resources/css/themes/pmm.css',
+  'resources/css/app.css',
+];
 
-var fontsFiles = [
-    'bower_components/open-sans-fontface/fonts/**/*'
-]
+const fontsFiles = [
+  'node_modules/open-sans-fontface/fonts/**/*'
+];
 
-var fonts = [
-    'bower_components/bootstrap/fonts/**/*',
-    'bower_components/font-awesome/fonts/**/*',
-    'resources/fonts/**/*'
-]
+const fonts = [
+  'node_modules/bootstrap/fonts/**/*',
+  'node_modules/font-awesome/fonts/**/*',
+  'resources/fonts/**/*'
+];
 
-var images = [
-    'vendor/thupan/pmm/resources/ext/debug/thupan.png'
-]
+const images = [];
 
-var imagesRsrc = [
-    'vendor/thupan/pmm/resources/images/*',
-    'resources/images/*'
-]
+const imagesRsrc = [
+  'vendor/thupan/pmm/resources/images/*',
+  'resources/images/*'
+];
 
-var toDelete = [
-    'public/assets/dist/fonts/*',
-    'public/assets/dist/*',
-    'public/assets/fonts/*',
-    'public/assets/*',
-    'public/assets'
-]
+const toDelete = [
+  'public/assets/dist/fonts/*',
+  'public/assets/dist/*',
+  'public/assets/fonts/*',
+  'public/assets/*',
+  'public/assets'
+];
 
-// TASKS BEGIN
+function clean() {
+  return del(toDelete);
+}
 
-// deletes files
-gulp.task('clean', function () {
-    return del(toDelete); // rm -rf
+function prepareJs() {
+  return gulp.src(jsFiles)
+    .pipe(sourcemaps.init())
+    .pipe(concat('plugins.js'))
+    .pipe(minify({
+      ext: {
+        min: '.js'
+      }
+    }))
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('public/assets/dist'));
+}
+
+function prepareCss() {
+  return gulp.src(cssFiles)
+    .pipe(sourcemaps.init())
+    .pipe(concat('plugins.css'))
+    .pipe(cleanCSS({
+      compatibility: 'ie8'
+    }))
+    .pipe(minifyCSS({
+      restructure: false,
+      sourceMap: true,
+      debug: true
+    }))
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('public/assets/dist'));
+}
+
+function prepareSass() {
+  return gulp.src(['./resources/scss/*.scss', './app/Http/Views/**/scss/*.scss'])
+    .pipe(concat('plugins-scss.css'))
+    .pipe(sass({
+      outputStyle: 'compressed'
+    }))
+    .pipe(gulp.dest('public/assets/dist'));
+}
+
+function prepareFonts() {
+  return gulp.src(fontsFiles)
+    .pipe(gulp.dest('public/assets/dist/fonts/'));
+}
+
+function prepareFiles() {
+  return gulp.src(fonts)
+    .pipe(gulp.dest('public/assets/fonts/'));
+}
+
+function prepareImages() {
+  return gulp.src(imagesRsrc)
+    .pipe(gulp.dest('public/images/pmm/'));
+}
+
+gulp.task('clean', clean);
+gulp.task('prepareJs', prepareJs);
+gulp.task('prepareCss', prepareCss);
+gulp.task('prepareSass', prepareSass);
+gulp.task('prepareFonts', prepareFonts);
+gulp.task('prepareFiles', prepareFiles);
+gulp.task('prepareImages', prepareImages);
+
+gulp.task('php', function () {
+  php.server({
+    base: './',
+    port: 3000,
+    keepalive: true
+  });
 });
 
+gulp.task('browserSync', gulp.series('php', function () {
+  browserSync.init({
+    proxy: "localhost:3000",
+    baseDir: "./",
+    open: true,
+    notify: false
 
-gulp.task('js-minify', function(){
-    var stream = gulp.src(jsFiles)
-               .pipe(concat('plugins.js'))
-               .pipe(gulp.dest('public/assets/dist'));               
-    return stream;
+  });
+}));
 
-})
+gulp.task('dev', gulp.series('browserSync', function () {
+  gulp.watch('./public/*.php', browserSync.reload);
+}));
 
-gulp.task('css-minify', function () {
-    var stream = gulp.src(cssFiles)
-        .pipe(concat('plugins.css'))
-        //.pipe(uglify())
-        .pipe(gulp.dest('public/assets/dist'));
-    return stream;
-})
+gulp.task('serve',
+  gulp.series('clean',
+    gulp.series(
+      'prepareJs',
+      'prepareCss',
+      'prepareSass',
+      'prepareFonts',
+      'prepareFiles',
+      'prepareImages',
+    )
+  )
+);
 
-gulp.task('copy-fonts', function() {
-    return gulp.src(fontsFiles)
-        .pipe(gulp.dest('public/assets/dist/fonts/'));
-});
+gulp.task('default', gulp.series('serve', 'browserSync'));
 
-gulp.task('copy-files', function() {
-    return gulp.src(fonts)
-        .pipe(gulp.dest('public/assets/fonts/'));
-});
-
-gulp.task('copy-images', function() {
-    return gulp.src(images)
-        .pipe(gulp.dest('public/assets/dist/'));
-});
-
-gulp.task('copy-images-rsrc', function() {
-    return gulp.src(imagesRsrc)
-        .pipe(gulp.dest('public/images/pmm/'));
-});
-
-
-
-// Clean is forced to run *FIRST* using gulp.series
-// Then subsequent tasks can be asynchronous in executing
-gulp.task('serve', gulp.series('clean',
-    gulp.parallel(
-        'js-minify',
-        'css-minify',
-        'copy-fonts',
-        'copy-files',
-        'copy-images',
-        'copy-images-rsrc')));
-
-// attach a default task, so when when just <code>gulp</code> the thing runs
-gulp.task('default', gulp.series('serve'));
+gulp.watch([
+  './gulpfile.js',
+  './resources/js/*.js',
+  './resources/css/*.css',
+  './resources/scss/*.scss',
+  './vendor/thupan/pmm/resources/js/*.js',
+  './vendor/thupan/pmm/resources/css/*.css',
+  './vendor/thupan/pmm/resources/scss/*.scss',
+  './app/Http/Views/**/scss/*.scss'
+], gulp.parallel('serve'));

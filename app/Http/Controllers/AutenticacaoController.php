@@ -88,14 +88,17 @@ class AutenticacaoController extends Controller {
     public function run() {
         Request::post($data, false);
 
-        Session::set('s_username', $data['username']);
-        Session::set('s_password', base64_encode($data['password']));
+        // Session::set('s_username', $data['username']);
+        // Session::set('s_password', base64_encode($data['password']));
 
         if(!$data['environment']) {
             $data['environment'] = $this->config['database']['DB_DEFAULT_ENV'];
         }
 
         Session::set('s_environment', $data['environment']);
+
+        Session::set('s_username', $this->config['database']['connections'][$data['environment']][0]['username']);
+        Session::set('s_password', base64_encode($this->config['database']['connections'][$data['environment']][0]['password']));   
 
         $database = new \Database\Database();
         $database = $database->getInstance();
@@ -132,8 +135,12 @@ class AutenticacaoController extends Controller {
                     $error = '[28011] Sua conta expirou, altere sua senha agora. clique <a id="as_btn_modal" href="#">aqui</a>.';
                 break;
 
+                case '01045':
+                    $error = 'Sua conta não tem permissão para logar no sistemas pmm. Por favor entre em contato com a equipe dos SISTEMAS PMM, pelo e-mail <a href="mailto:sistemaspmm@pmm.am.gov.br">sistemaspmm@pmm.am.gov.br</a>, para resolver o problema.';
+                break;
+
                 default:
-                    $error = 'Oops! Ocorreu um erro interno, entre em contato com a equipe dos SISTEMAS PMM, pelo e-mail <a href="mailto:sistemaspmm@pmm.am.gov.br">sistemaspmm@pmm.am.gov.br</a>. :-(';
+                    $error = 'Oops! Ocorreu um erro interno, entre em contato com a equipe dos SISTEMAS PMM, pelo e-mail <a href="mailto:sistemaspmm@pmm.am.gov.br">sistemaspmm@pmm.am.gov.br</a>. :-( Code Error: ' . $code[1];
             }
 
             View::flash($error, 'danger');
@@ -148,14 +155,26 @@ class AutenticacaoController extends Controller {
                 }
             } else {
                 if(Autenticacao::login($data)) {
-                    Session::set('s_loggedIn', Session::get('s_token') . md5($data['username'].$data['password']));
-                    Session::set('TX_LOGIN', $data['username']);
+
+                    foreach(Autenticacao::getUserInfo($data['username']) as $index => $array) {
+                        foreach($array as $key => $value) {
+                            Session::set($key, $value);
+                        }
+                    }
+
+                    if (!Autenticacao::validaAcesso(Session::get('ID_USUARIO'))) {
+                        View::flash('Você não tem permissão para acessar este sistema.', 'danger');
+                        Redirect::to('/');
+                        die;
+                    }
+
+                    Session::set('s_loggedIn', Session::get('s_token') . md5($array['ID_USUARIO']));
+     
                 } else {
                     View::flash(translate('autenticacao', 'login_invalid'), 'danger');
                 }
             }
-
-            Redirect::to( (Session::get('lastpage')) ? Session::get('lastpage') : '/');
+            Redirect::to('/');
         }
     }
 

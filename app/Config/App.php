@@ -9,9 +9,9 @@ return [
     | Esse valor determina dados da app.
     |
     */
-    'APP_NAME'    => 'NOME_SISTEMA', // necessario ser o mesmo nome que esta na tabela de SISTEMA
+    'APP_NAME'    => 'ADMIN',
     'APP_VERSION' => 'beta',
-    'APP_TITLE'   => 'Sistemas PMM',
+    'APP_TITLE'   => 'Administrativo PMM',
 
     /*
     |--------------------------------------------------------------------------
@@ -43,7 +43,7 @@ return [
     | recomendado alterar este valor antes utilizar sua aplicação.
     |
     */
-    'KEY' => '123456', // ALTERAR CHAVE
+    'KEY' => '8ffa403ae0c6b573abd340bd3dade57c',
 
     /*
     |--------------------------------------------------------------------------
@@ -83,6 +83,18 @@ return [
     |
     */
     'DEFAULT_THEME' => 'pmm',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Diretórios Públicos
+    |--------------------------------------------------------------------------
+    | Este determina a url para acesso a aplicação.
+    |
+    | NOTE: /public é o diretório raíz portanto não precisa especificar.
+    |
+    */
+    'BOWER_COMPONENTS'     => 'assets/thupan/bower_components/',
+    'DEBUGBAR_RESOURCES'   => 'assets/thupan/debug/',
 
     /*
     |--------------------------------------------------------------------------

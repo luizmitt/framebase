@@ -1,0 +1,47 @@
+version: "2"
+
+volumes:
+  log:
+    driver: local
+  cache:
+    driver: local
+
+services:
+  php-cli:
+    image: "rodrixcornell/ubuntu-php:cli"
+    container_name: administrativo
+    cpu_shares: 128
+    mem_reservation: 128m
+    mem_limit: 256m
+    memswap_limit: -1
+    privileged: true
+    # restart: always
+
+    hostname: administrativo
+
+    environment:
+      docker: "true"
+      # default: "true"
+      # database: "mysql"
+      # environment: "prd"
+
+    ports:
+      - 8888:8888
+
+    extra_hosts:
+      - "pitua:172.17.104.15"
+      - "curuduri:172.17.131.45"
+      - "cubatao:172.17.131.4"
+      - "divisa:172.17.131.24"
+      - "jaragua:172.17.131.44"
+
+    working_dir: /var/www
+
+    volumes:
+      - .:/var/www
+      - log:/var/www/app/Store/Log
+      - cache:/var/www/app/Store/Cache
+
+    network_mode: "bridge"
+
+    command: php -welsS 0.0.0.0:8888 -t public
